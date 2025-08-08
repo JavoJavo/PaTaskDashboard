@@ -118,6 +118,12 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
             if 'steps' in step and step['steps']:
                 display_task_with_checkboxes(step, indent_level + 2, False)  # Fixed from +2 to +1
 
+def main_section(task):
+    main_section_ui.clear()
+    with main_section_ui:
+        ui.label(f"🏭 {task['app']} - {task['env']}").classes('sticky top-0 z-10 text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
+        #with ui.scroll_area().classes('w-full h-[700px] dense-scroll-area p-0'):
+        display_task_with_checkboxes(task, 0, False)
 
 # Minimalist layout with better spacing
 with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relative' container
@@ -130,15 +136,16 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
      
     for task in ALL_TASKS:
         # Right drawer:
+        main_section_ui = ui.column().classes('w-full')
         with right_drawer:
-            ui.button(f"🏭 {task['app']} - {task['env']}")
+            ui.button(f"🏭 {task['app']} - {task['env']}", on_click=lambda t=task: main_section(t))
         # Main section:
-        with ui.card().classes('w-full p-0 m-0 gap-0'):
-            ui.label(f"🏭 {task['app']} - {task['env']}").classes('text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
-            with ui.scroll_area().classes('w-full h-[700px] dense-scroll-area p-0'):
-                display_task_with_checkboxes(task, 0, False)
+        #with ui.card().classes('w-full p-0 m-0 gap-0') as main_section_ui:
+        #    ui.label(f"🏭 {task['app']} - {task['env']}").classes('text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
+        #    with ui.scroll_area().classes('w-full h-[700px] dense-scroll-area p-0'):
+        #        display_task_with_checkboxes(task, 0, False)
 
-
+'''
 with ui.scroll_area().classes('w-300 h-50 border'):
     with ui.stepper().props('vertical').classes('w-full') as stepper:
         with ui.step('Preheat'):
@@ -162,6 +169,7 @@ with ui.scroll_area().classes('w-300 h-50 border'):
     #with ui.row():
     #    ui.button('Stop Alert', on_click=alert.stop)
     #    ui.button('New Alert', on_click=lambda: BlinkingAlert('NEW ALERT!'))
+'''
 
 ui.dark_mode().enable
 ui.run(native=True)
