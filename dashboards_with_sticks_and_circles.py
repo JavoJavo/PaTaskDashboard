@@ -89,7 +89,14 @@ def hint_block(content: str):
     #with ui.expansion('Expand!', caption='Expansion Caption').classes('w-full'):
         #ui.label('inside the expansion')
     pass
-        
+
+def on_changed_checkbox(step):
+    #print(step['status'])
+    if step['status'] == 'completed':
+        step['status'] = 'pending'
+    else:
+        step['status'] = 'completed'
+
 def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
     """Recursive checkbox display with proper spacing"""
     with ui.column().classes('w-full gap-0'):  
@@ -98,7 +105,8 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
                 if 'steps' in step and step['steps']:
                     ui.label(f"📌 {step['name']}").classes('text-sm md:text-base font-bold p-1 leading-tight text-primary bg-white/10 rounded')
                 else:
-                    ui.checkbox().classes('m-0 p-0 w-3.5 h-3.5 scale-75')
+                    #print((step['status']=='completed'))
+                    ui.checkbox(value=(step['status']=='completed'), on_change=lambda s=step: on_changed_checkbox(s)).classes('m-0 p-0 w-3.5 h-3.5 scale-75')
                     ui.label(step['name']).classes('text-xs p-0 leading-none')
             
             with ui.row().classes(f'items-center ml-{indent_level * 4}'):
@@ -133,10 +141,10 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
         with ui.row().classes('gap-1'):
             ui.button(icon='menu', on_click=left_drawer.toggle).props('flat dense')
             ui.button(icon='settings', on_click=right_drawer.toggle).props('flat dense')
-     
+    
+    main_section_ui = ui.column().classes('w-full') 
     for task in ALL_TASKS:
         # Right drawer:
-        main_section_ui = ui.column().classes('w-full')
         with right_drawer:
             ui.button(f"🏭 {task['app']} - {task['env']}", on_click=lambda t=task: main_section(t))
         # Main section:
