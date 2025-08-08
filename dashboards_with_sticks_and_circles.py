@@ -63,6 +63,10 @@ def load_tasks():
         ALL_TASKS = json.load(f)
 load_tasks()
 
+def save_tasks():
+    with open('Processes.json', 'w') as f:
+        json.dump(ALL_TASKS, f, indent=2)  # indent for readability
+
 def code_block(content: str):
     with ui.row().classes('relative items-center gap-2 p-0 bg-gray-100 dark:bg-gray-800 rounded'):
         ui.markdown(f'```python\n{content}\n```').classes('flex-grow')
@@ -96,6 +100,7 @@ def on_changed_checkbox(step):
         step['status'] = 'pending'
     else:
         step['status'] = 'completed'
+    save_tasks()
 
 def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
     """Recursive checkbox display with proper spacing"""
@@ -126,11 +131,24 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
             if 'steps' in step and step['steps']:
                 display_task_with_checkboxes(step, indent_level + 2, False)  # Fixed from +2 to +1
 
+#task_scroll_positions = {}
 def main_section(task):
     main_section_ui.clear()
     with main_section_ui:
         ui.label(f"🏭 {task['app']} - {task['env']}").classes('sticky top-0 z-10 text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
-        #with ui.scroll_area().classes('w-full h-[700px] dense-scroll-area p-0'):
+        
+        # Create a unique scroll container for each task
+        #with ui.card().classes('w-full'):
+        #    ui.scroll_area(on_scroll=lambda e: task_scroll_positions.update(
+        #        {str(task['env'])+'-'+str(task['app']): e.args['verticalPosition']}
+        #    ))
+        #    print(task_scroll_positions)
+            
+            # Restore previous scroll position if exists
+        #    if str(task['env'])+'-'+str(task['app']) in task_scroll_positions:
+        #        ui.run_javascript(f'''
+        #            document.getElementById("{scroll_area.id}").scrollTop = {task_scroll_positions[str(task['env'])+'-'+str(task['app'])]};
+        #        ''')
         display_task_with_checkboxes(task, 0, False)
 
 # Minimalist layout with better spacing
@@ -147,37 +165,7 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
         # Right drawer:
         with right_drawer:
             ui.button(f"🏭 {task['app']} - {task['env']}", on_click=lambda t=task: main_section(t))
-        # Main section:
-        #with ui.card().classes('w-full p-0 m-0 gap-0') as main_section_ui:
-        #    ui.label(f"🏭 {task['app']} - {task['env']}").classes('text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
-        #    with ui.scroll_area().classes('w-full h-[700px] dense-scroll-area p-0'):
-        #        display_task_with_checkboxes(task, 0, False)
 
-'''
-with ui.scroll_area().classes('w-300 h-50 border'):
-    with ui.stepper().props('vertical').classes('w-full') as stepper:
-        with ui.step('Preheat'):
-            ui.label('Preheat the oven to 350 degrees')
-            with ui.stepper_navigation():
-                ui.button('Next', on_click=stepper.next)
-        with ui.step('Ingredients'):
-            ui.label('Mix the ingredients')
-            with ui.stepper_navigation():
-                ui.button('Next', on_click=stepper.next)
-                ui.button('Back', on_click=stepper.previous).props('flat')
-        with ui.step('Bake'):
-            ui.label('Bake for 20 minutes')
-            with ui.stepper_navigation():
-                ui.button('Done', on_click=lambda: ui.notify('Yay!', type='positive'))
-                ui.button('Back', on_click=stepper.previous).props('flat')
-
-
-
-    # Create an element that blinks
-    #with ui.row():
-    #    ui.button('Stop Alert', on_click=alert.stop)
-    #    ui.button('New Alert', on_click=lambda: BlinkingAlert('NEW ALERT!'))
-'''
 
 ui.dark_mode().enable
 ui.run(native=True)
