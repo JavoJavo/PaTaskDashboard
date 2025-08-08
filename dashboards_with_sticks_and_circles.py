@@ -2,6 +2,7 @@ from nicegui import ui
 import json
 from typing import List, Optional
 import uuid
+#import watchfiles or watchdog
 
 # Add to your app startup (before UI creation)
 ui.add_head_html('''
@@ -47,10 +48,9 @@ with ui.left_drawer(value=False).classes('bg-blue-100') as left_drawer:
     ui.button("Close Left", on_click=left_drawer.toggle)
 
 # Right drawer (collapsible side menu)
+right_drawer = None
 with ui.right_drawer().classes('bg-green-100') as right_drawer:
     ui.label("RIGHT MENU")
-    ui.button("Setting A")
-    ui.button("Setting B")
     ui.button("Close Right", on_click=right_drawer.toggle)
 
 
@@ -84,6 +84,11 @@ def link_block(url: str, display_text: str = None):
         ui.button(icon='content_copy', on_click=lambda: ui.run_javascript(f'navigator.clipboard.writeText(`{url}`)')) \
             .props('flat dense') \
             .classes('w-6 h-6 min-w-0 min-h-0 p-0 m-0 opacity-70 hover:opacity-100')
+        
+def hint_block(content: str):
+    #with ui.expansion('Expand!', caption='Expansion Caption').classes('w-full'):
+        #ui.label('inside the expansion')
+    pass
         
 def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
     """Recursive checkbox display with proper spacing"""
@@ -124,6 +129,10 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
             ui.button(icon='settings', on_click=right_drawer.toggle).props('flat dense')
      
     for task in ALL_TASKS:
+        # Right drawer:
+        with right_drawer:
+            ui.button(f"🏭 {task['app']} - {task['env']}")
+        # Main section:
         with ui.card().classes('w-full p-0 m-0 gap-0'):
             ui.label(f"🏭 {task['app']} - {task['env']}").classes('text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
             with ui.scroll_area().classes('w-full h-[700px] dense-scroll-area p-0'):
