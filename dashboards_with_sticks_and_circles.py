@@ -94,13 +94,34 @@ def hint_block(content: str):
         #ui.label('inside the expansion')
     pass
 
+tasks_status = {}
+def recursive_step_completion_checker(step):
+    if 'steps' in step and step['steps']:
+        return all([recursive_step_completion_checker(sub_step) for sub_step in step['steps']])
+    else:
+        return (step['status'] == 'completed')
+def update_tasks_status():
+    for task in ALL_TASKS:
+        task_id = str(task['env'])+'-'+str(task['app'])
+        current_tasks_status = 'Not started'
+        for step in task['steps']:
+            if recursive_step_completion_checker(step) == False:
+                current_tasks_status = step['name']
+                break
+            else:
+                current_tasks_status = 'Finished'
+        tasks_status[task_id] = current_tasks_status
+    #print(tasks_status)
+
+
 def on_changed_checkbox(step):
-    #print(step['status'])
     if step['status'] == 'completed':
         step['status'] = 'pending'
     else:
         step['status'] = 'completed'
     save_tasks()
+    update_tasks_status()
+    draw_drawer_buttons(right_drawer)
 
 def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
     """Recursive checkbox display with proper spacing"""
@@ -150,7 +171,14 @@ def main_section(task):
         #            document.getElementById("{scroll_area.id}").scrollTop = {task_scroll_positions[str(task['env'])+'-'+str(task['app'])]};
         #        ''')
         display_task_with_checkboxes(task, 0, False)
+update_tasks_status()
 
+def draw_drawer_buttons(right_drawer):
+    right_drawer.clear()
+    for task in ALL_TASKS:
+        with right_drawer:
+            ui.button(f"🏭 {task['app']} - {task['env']}\n{tasks_status[str(task['env'])+'-'+str(task['app'])]}", on_click=lambda t=task: main_section(t))
+    
 # Minimalist layout with better spacing
 with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relative' container
     # Header with integrated controls (no overlap)
@@ -161,11 +189,11 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
             ui.button(icon='settings', on_click=right_drawer.toggle).props('flat dense')
     
     main_section_ui = ui.column().classes('w-full') 
-    for task in ALL_TASKS:
+    draw_drawer_buttons(right_drawer)
         # Right drawer:
-        with right_drawer:
-            ui.button(f"🏭 {task['app']} - {task['env']}", on_click=lambda t=task: main_section(t))
-
+        #with right_drawer:
+            #draw_drawer_buttons(right_drawer)
+            #ui.button(f"🏭 {task['app']} - {task['env']}\n{tasks_status[str(task['env'])+'-'+str(task['app'])]}", on_click=lambda t=task: main_section(t))
 
 ui.dark_mode().enable
 ui.run(native=True)
