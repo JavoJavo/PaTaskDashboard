@@ -199,9 +199,17 @@ def draw_drawer_buttons(right_drawer):
         "Failed": "negative"
     }
     
-    # Define the complete workflow order for progress calculation
-    status_order = ["Initial Checks", "Backup", "Pre Steps", "Deployment", 
-                   "Post Steps", "Post Checks", "Completed"]
+    # Define the complete workflow order with progress percentages
+    status_progress = {
+        "Initial Checks": .15,
+        "Backup": .30,
+        "Pre Steps": .45,
+        "Deployment": .60,
+        "Post Steps": .75,
+        "Post Checks": .90,
+        "Completed": 1.00,
+        "Failed": 0  # Failed tasks show empty progress bar
+    }
     
     for task in ALL_TASKS:
         task_key = f"{task['env']}-{task['app']}"
@@ -215,12 +223,8 @@ def draw_drawer_buttons(right_drawer):
                     ui.label(status_icons.get(status, "❓")).classes("text-xl")
                 
                 # Progress bar showing status
-                try:
-                    progress_value = (status_order.index(status) + 1) / len(status_order) * 100
-                except ValueError:  # For 'Failed' or unknown statuses
-                    progress_value = 0
-                
-                with ui.linear_progress(progress_value, show_value=False).classes("h-2"):
+                progress_value = status_progress.get(status, 0)
+                with ui.linear_progress(value=progress_value, show_value=False).classes("h-2"):
                     pass
                 
                 # Status label with color coding
