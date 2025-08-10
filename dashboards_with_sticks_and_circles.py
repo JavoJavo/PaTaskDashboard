@@ -176,61 +176,90 @@ update_tasks_status()
 def draw_drawer_buttons(right_drawer):
     right_drawer.clear()
     
-    # Define status colors and icons
-    status_icons = {
-        "Initial Checks": "🔍",
-        "Backup": "💾",
-        "Pre Steps": "📋",
-        "Deployment": "🚀",
-        "Post Steps": "🛠️",
-        "Post Checks": "✅",
-        "Completed": "🎉",
-        "Failed": "❌"
+    # Status definitions with card colors and subtle gradients
+    status_config = {
+        "Initial Checks": {
+            "icon": "🔍",
+            "color": "bg-blue-100",
+            "border": "border-l-blue-500",
+            "progress": 0.15
+        },
+        "Backup": {
+            "icon": "💾",
+            "color": "bg-indigo-100",
+            "border": "border-l-indigo-500",
+            "progress": 0.30
+        },
+        "Pre Steps": {
+            "icon": "📋",
+            "color": "bg-purple-100",
+            "border": "border-l-purple-500",
+            "progress": 0.45
+        },
+        "Deployment": {
+            "icon": "🚀",
+            "color": "bg-deep-purple-100",
+            "border": "border-l-deep-purple-500",
+            "progress": 0.60
+        },
+        "Post Steps": {
+            "icon": "🛠️",
+            "color": "bg-teal-100",
+            "border": "border-l-teal-500",
+            "progress": 0.75
+        },
+        "Post Checks": {
+            "icon": "✅",
+            "color": "bg-green-100",
+            "border": "border-l-green-500",
+            "progress": 0.90
+        },
+        "Completed": {
+            "icon": "🎉",
+            "color": "bg-positive-100",
+            "border": "border-l-positive",
+            "progress": 1.0
+        },
+        "Failed": {
+            "icon": "❌",
+            "color": "bg-negative-100",
+            "border": "border-l-negative",
+            "progress": 0.0
+        }
     }
-    
-    status_colors = {
-        "Initial Checks": "blue",
-        "Backup": "indigo",
-        "Pre Steps": "purple",
-        "Deployment": "deep-purple",
-        "Post Steps": "teal",
-        "Post Checks": "green",
-        "Completed": "positive",
-        "Failed": "negative"
-    }
-    
-    # Define the complete workflow order with progress percentages
-    status_progress = {
-        "Initial Checks": .15,
-        "Backup": .30,
-        "Pre Steps": .45,
-        "Deployment": .60,
-        "Post Steps": .75,
-        "Post Checks": .90,
-        "Completed": 1.00,
-        "Failed": 0  # Failed tasks show empty progress bar
-    }
-    
+
     for task in ALL_TASKS:
         task_key = f"{task['env']}-{task['app']}"
         status = tasks_status.get(task_key, "Unknown")
+        config = status_config.get(status, {
+            "icon": "❓",
+            "color": "bg-grey-50",
+            "border": "border-l-grey-500",
+            "progress": 0.0
+        })
         
         with right_drawer:
-            with ui.card().tight().classes("w-full mb-2"):
-                # Header with app/env info
-                with ui.row().classes("w-full bg-gray-100 p-2 items-center justify-between"):
+            with ui.card().classes(f"""
+                w-full mb-2 p-0 overflow-hidden
+                {config['color']} {config['border']}
+                border-l-4 rounded-lg shadow-sm
+                hover:shadow-md transition-shadow
+                """):
+                
+                # Header with subtle status stripe
+                with ui.row().classes("w-full p-3 items-center justify-between"):
                     ui.label(f"🏭 {task['app']} - {task['env']}").classes("font-bold")
-                    ui.label(status_icons.get(status, "❓")).classes("text-xl")
+                    ui.label(config['icon']).classes("text-xl")
                 
-                # Progress bar showing status
-                progress_value = status_progress.get(status, 0)
-                with ui.linear_progress(value=progress_value, show_value=False).classes("h-2"):
-                    pass
+                # Progress bar with matching accent color
+                ui.linear_progress(config['progress'], show_value=False).classes("h-1.5 w-full").props("instant-feedback")
                 
-                # Status label with color coding
-                with ui.row().classes("w-full p-2 items-center justify-between"):
-                    ui.label(status).classes(f"text-{status_colors.get(status, 'grey')} font-medium")
-                    ui.button(icon="visibility", on_click=lambda t=task: main_section(t)).props("flat dense")
+                # Footer with action button
+                with ui.row().classes("w-full px-3 pb-2 pt-1 items-center justify-between"):
+                    ui.label(status).classes("text-sm font-medium")
+                    ui.button(icon="visibility", on_click=lambda t=task: main_section(t)) \
+                     .props("flat dense").classes("text-grey-700")
+                    
 
 # Minimalist layout with better spacing
 with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relative' container
