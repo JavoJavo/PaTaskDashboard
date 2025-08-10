@@ -109,7 +109,7 @@ def update_tasks_status():
                 current_tasks_status = step['name']
                 break
             else:
-                current_tasks_status = 'Finished'
+                current_tasks_status = 'Completed'
         tasks_status[task_id] = current_tasks_status
     #print(tasks_status)
 
@@ -175,10 +175,59 @@ update_tasks_status()
 
 def draw_drawer_buttons(right_drawer):
     right_drawer.clear()
-    for task in ALL_TASKS:
-        with right_drawer:
-            ui.button(f"🏭 {task['app']} - {task['env']}\n{tasks_status[str(task['env'])+'-'+str(task['app'])]}", on_click=lambda t=task: main_section(t))
     
+    # Define status colors and icons
+    status_icons = {
+        "Initial Checks": "🔍",
+        "Backup": "💾",
+        "Pre Steps": "📋",
+        "Deployment": "🚀",
+        "Post Steps": "🛠️",
+        "Post Checks": "✅",
+        "Completed": "🎉",
+        "Failed": "❌"
+    }
+    
+    status_colors = {
+        "Initial Checks": "blue",
+        "Backup": "indigo",
+        "Pre Steps": "purple",
+        "Deployment": "deep-purple",
+        "Post Steps": "teal",
+        "Post Checks": "green",
+        "Completed": "positive",
+        "Failed": "negative"
+    }
+    
+    # Define the complete workflow order for progress calculation
+    status_order = ["Initial Checks", "Backup", "Pre Steps", "Deployment", 
+                   "Post Steps", "Post Checks", "Completed"]
+    
+    for task in ALL_TASKS:
+        task_key = f"{task['env']}-{task['app']}"
+        status = tasks_status.get(task_key, "Unknown")
+        
+        with right_drawer:
+            with ui.card().tight().classes("w-full mb-2"):
+                # Header with app/env info
+                with ui.row().classes("w-full bg-gray-100 p-2 items-center justify-between"):
+                    ui.label(f"🏭 {task['app']} - {task['env']}").classes("font-bold")
+                    ui.label(status_icons.get(status, "❓")).classes("text-xl")
+                
+                # Progress bar showing status
+                try:
+                    progress_value = (status_order.index(status) + 1) / len(status_order) * 100
+                except ValueError:  # For 'Failed' or unknown statuses
+                    progress_value = 0
+                
+                with ui.linear_progress(progress_value, show_value=False).classes("h-2"):
+                    pass
+                
+                # Status label with color coding
+                with ui.row().classes("w-full p-2 items-center justify-between"):
+                    ui.label(status).classes(f"text-{status_colors.get(status, 'grey')} font-medium")
+                    ui.button(icon="visibility", on_click=lambda t=task: main_section(t)).props("flat dense")
+
 # Minimalist layout with better spacing
 with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relative' container
     # Header with integrated controls (no overlap)
