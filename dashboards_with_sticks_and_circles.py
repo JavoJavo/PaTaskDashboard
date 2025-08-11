@@ -240,25 +240,26 @@ def draw_drawer_buttons(right_drawer):
         
         with right_drawer:
             with ui.card().classes(f"""
-                w-full mb-2 p-0 overflow-hidden
+                w-full mb-1 p-0 overflow-hidden
                 {config['color']} {config['border']}
                 border-l-4 rounded-lg shadow-sm
-                hover:shadow-md transition-shadow
-                """):
+                hover:shadow-md transition-all
+                cursor-pointer active:scale-[0.98]  # Click feedback
+                """).on("click", lambda t=task: main_section(t)):
                 
-                # Header with subtle status stripe
-                with ui.row().classes("w-full p-3 items-center justify-between"):
-                    ui.label(f"🏭 {task['app']} - {task['env']}").classes("font-bold")
-                    ui.label(config['icon']).classes("text-xl")
+                # Slim header row
+                with ui.row().classes("w-full px-2 py-1 items-center justify-between"):
+                    ui.label(f"🏭 {task['app']} - {task['env']}").classes("text-sm font-bold truncate")
+                    ui.label(config['icon']).classes("text-lg")  # Slightly smaller icon
                 
-                # Progress bar with matching accent color
-                ui.linear_progress(config['progress'], show_value=False).classes("h-1.5 w-full").props("instant-feedback")
+                # Slim progress bar
+                ui.linear_progress(config['progress'], show_value=False).classes("h-1 w-full")
                 
-                # Footer with action button
-                with ui.row().classes("w-full px-3 pb-2 pt-1 items-center justify-between"):
-                    ui.label(status).classes("text-sm font-medium")
-                    ui.button(icon="visibility", on_click=lambda t=task: main_section(t)) \
-                     .props("flat dense").classes("text-grey-700")
+                # Compact footer
+                with ui.row().classes("w-full px-2 py-1 items-center justify-between"):
+                    ui.label(status).classes("text-xs font-medium")
+                    # Optional: Small visual cue for clickable
+                    #ui.icon("chevron_right", size="sm").classes("text-gray-500")
                     
 
 # Minimalist layout with better spacing
