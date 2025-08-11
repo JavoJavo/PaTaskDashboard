@@ -55,7 +55,7 @@ with ui.right_drawer().classes('bg-green-100') as right_drawer:
 
 
 ALL_TASKS = []
-
+task_in_view = None
 # Load sample data
 def load_tasks():
     global ALL_TASKS
@@ -132,6 +132,7 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
                     ui.label(f"📌 {step['name']}").classes('text-sm md:text-base font-bold p-1 leading-tight text-primary bg-white/10 rounded')
                 else:
                     #print((step['status']=='completed'))
+                    if 'status' not in step: step['status'] = 'pending'
                     ui.checkbox(value=(step['status']=='completed'), on_change=lambda s=step: on_changed_checkbox(s)).classes('m-0 p-0 w-3.5 h-3.5 scale-75')
                     ui.label(step['name']).classes('text-xs p-0 leading-none')
             
@@ -155,6 +156,8 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
 #task_scroll_positions = {}
 def main_section(task):
     main_section_ui.clear()
+    task_key = f"{task['env']}-{task['app']}"
+    task_in_view = task_key
     with main_section_ui:
         ui.label(f"🏭 {task['app']} - {task['env']}").classes('sticky top-0 z-10 text-lg md:text-xl font-bold p-2 mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg border-l-4 border-blue-500 w-full shadow-sm')
         
@@ -243,23 +246,22 @@ def draw_drawer_buttons(right_drawer):
                 w-full mb-1 p-0 overflow-hidden
                 {config['color']} {config['border']}
                 border-l-4 rounded-lg shadow-sm
-                hover:shadow-md transition-all
-                cursor-pointer active:scale-[0.98]  # Click feedback
+                hover:shadow-md transition-shadow
+                cursor-pointer
                 """).on("click", lambda t=task: main_section(t)):
                 
-                # Slim header row
-                with ui.row().classes("w-full px-2 py-1 items-center justify-between"):
-                    ui.label(f"🏭 {task['app']} - {task['env']}").classes("text-sm font-bold truncate")
-                    ui.label(config['icon']).classes("text-lg")  # Slightly smaller icon
+                # Tight header with original sizes
+                with ui.row().classes("w-full px-2 pt-1 items-center justify-between"):
+                    ui.label(f"🏭 {task['app']} - {task['env']}").classes("font-bold")
+                    ui.label(config['icon']).classes("text-xl")
                 
-                # Slim progress bar
-                ui.linear_progress(config['progress'], show_value=False).classes("h-1 w-full")
+                # Progress bar moved up with no margin
+                ui.linear_progress(config['progress'], show_value=False).classes("h-1.5 w-full mt-0")
                 
-                # Compact footer
-                with ui.row().classes("w-full px-2 py-1 items-center justify-between"):
-                    ui.label(status).classes("text-xs font-medium")
-                    # Optional: Small visual cue for clickable
-                    #ui.icon("chevron_right", size="sm").classes("text-gray-500")
+                # Compact footer with original text size
+                with ui.row().classes("w-full px-2 pb-1 items-center justify-between"):
+                    ui.label(status).classes("font-medium")
+                    ui.icon("chevron_right").classes("text-gray-500")
                     
 
 # Minimalist layout with better spacing
