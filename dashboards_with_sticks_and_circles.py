@@ -99,6 +99,7 @@ def recursive_step_completion_checker(step):
     if 'steps' in step and step['steps']:
         return all([recursive_step_completion_checker(sub_step) for sub_step in step['steps']])
     else:
+        if 'status' not in step: step['status'] = 'pending'
         return (step['status'] == 'completed')
 def update_tasks_status():
     for task in ALL_TASKS:
