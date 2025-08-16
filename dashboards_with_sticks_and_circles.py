@@ -105,7 +105,7 @@ def recursive_step_completion_checker(step, completed='completed'):
 def update_tasks_status():
     for task in ALL_TASKS:
         task_id = str(task['env'])+'-'+str(task['app'])
-        current_tasks_status = 'Not started'
+        current_tasks_status = 'Not Started'
         for i,step in enumerate(task['steps']):
             if i==0 and recursive_step_completion_checker(step, completed='pending'):
                 break
@@ -184,7 +184,13 @@ def draw_drawer_buttons(right_drawer):
     right_drawer.clear()
     
     # Status definitions with card colors and subtle gradients
-    status_config = {
+    status_config = {          
+        "Not Started": {
+            "icon": "⚪",
+            "color": "bg-blue-1",
+            "border": "border-l-blue-5",
+            "progress": 0.0
+        },
         "Initial Checks": {
             "icon": "🔍",
             "color": "bg-blue-100",
