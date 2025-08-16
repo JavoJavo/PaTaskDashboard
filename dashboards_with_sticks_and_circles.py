@@ -58,11 +58,11 @@ ALL_TASKS = []
 FILE = 'Processes.json'
 task_in_view = None
 # Load sample data
-def load_tasks():
+def load_tasks(FILE):
     global ALL_TASKS
     with open(FILE,'r') as f:
         ALL_TASKS = json.load(f)
-load_tasks()
+load_tasks(FILE)
 
 def save_tasks(FILE):
     with open(FILE, 'w') as f:
