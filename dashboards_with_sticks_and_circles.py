@@ -96,18 +96,20 @@ def hint_block(content: str):
     pass
 
 tasks_status = {}
-def recursive_step_completion_checker(step):
+def recursive_step_completion_checker(step, completed='completed'):
     if 'steps' in step and step['steps']:
-        return all([recursive_step_completion_checker(sub_step) for sub_step in step['steps']])
+        return all([recursive_step_completion_checker(sub_step,completed=completed) for sub_step in step['steps']])
     else:
         if 'status' not in step: step['status'] = 'pending'
-        return (step['status'] == 'completed')
+        return (step['status'] == completed)
 def update_tasks_status():
     for task in ALL_TASKS:
         task_id = str(task['env'])+'-'+str(task['app'])
         current_tasks_status = 'Not started'
-        for step in task['steps']:
-            if recursive_step_completion_checker(step) == False:
+        for i,step in enumerate(task['steps']):
+            if i==0 and recursive_step_completion_checker(step, completed='pending'):
+                break
+            elif recursive_step_completion_checker(step) == False:
                 current_tasks_status = step['name']
                 break
             else:
