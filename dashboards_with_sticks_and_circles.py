@@ -64,7 +64,7 @@ def load_tasks(FILE):
         ALL_TASKS = json.load(f)
 load_tasks(FILE)
 
-def save_tasks(FILE):
+def save_tasks(FILE, ALL_TASKS):
     with open(FILE, 'w') as f:
         json.dump(ALL_TASKS, f, indent=2)  # indent for readability
 
@@ -121,7 +121,7 @@ def on_changed_checkbox(step):
         step['status'] = 'pending'
     else:
         step['status'] = 'completed'
-    save_tasks(FILE)
+    save_tasks(FILE, ALL_TASKS)
     update_tasks_status()
     draw_drawer_buttons(right_drawer)
 
