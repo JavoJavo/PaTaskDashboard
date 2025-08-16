@@ -249,6 +249,7 @@ def draw_drawer_buttons(right_drawer):
                 border-l-4 rounded-lg shadow-sm
                 hover:shadow-md transition-shadow
                 cursor-pointer
+                flex-none
                 """).on("click", lambda t=task: main_section(t)):
                 
                 # Tight header with original sizes
