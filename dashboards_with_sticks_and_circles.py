@@ -55,16 +55,17 @@ with ui.right_drawer().classes('bg-green-100') as right_drawer:
 
 
 ALL_TASKS = []
+FILE = 'Processes.json'
 task_in_view = None
 # Load sample data
 def load_tasks():
     global ALL_TASKS
-    with open('Processes.json','r') as f:
+    with open(FILE,'r') as f:
         ALL_TASKS = json.load(f)
 load_tasks()
 
-def save_tasks():
-    with open('Processes.json', 'w') as f:
+def save_tasks(FILE):
+    with open(FILE, 'w') as f:
         json.dump(ALL_TASKS, f, indent=2)  # indent for readability
 
 def code_block(content: str):
@@ -120,7 +121,7 @@ def on_changed_checkbox(step):
         step['status'] = 'pending'
     else:
         step['status'] = 'completed'
-    save_tasks()
+    save_tasks(FILE)
     update_tasks_status()
     draw_drawer_buttons(right_drawer)
 
