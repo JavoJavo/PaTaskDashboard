@@ -62,11 +62,16 @@ def load_tasks(FILE):
     global ALL_TASKS
     with open(FILE,'r') as f:
         ALL_TASKS = json.load(f)
-load_tasks(FILE)
 
 def save_tasks(FILE, ALL_TASKS):
     with open(FILE, 'w') as f:
         json.dump(ALL_TASKS, f, indent=2)  # indent for readability
+
+try:
+    from custom_functions import load_tasks, save_tasks
+    ALL_TASKS = load_tasks(FILE)
+except:
+    load_tasks(FILE)
 
 def code_block(content: str):
     with ui.column().classes('w-full'):
