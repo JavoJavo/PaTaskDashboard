@@ -69,26 +69,28 @@ def save_tasks(FILE, ALL_TASKS):
         json.dump(ALL_TASKS, f, indent=2)  # indent for readability
 
 def code_block(content: str):
-    with ui.row().classes('relative items-center gap-2 p-0 bg-gray-100 dark:bg-gray-800 rounded'):
-        ui.markdown(f'```python\n{content}\n```').classes('flex-grow')
-        
-        # Visible copy button (right side)
-        ui.button(icon='content_copy', color='primary') \
-            .props('round dense') \
-            .classes('shadow') \
-            .on('click', lambda: ui.run_javascript(f'navigator.clipboard.writeText(`{content}`)'))
+    with ui.column().classes('w-full'):
+        with ui.row().classes('relative items-center gap-2 p-0 bg-gray-100 dark:bg-gray-800 rounded'):
+            ui.markdown(f'```python\n{content}\n```').classes('flex-grow')
+            
+            # Visible copy button (right side)
+            ui.button(icon='content_copy', color='primary') \
+                .props('round dense') \
+                .classes('shadow') \
+                .on('click', lambda: ui.run_javascript(f'navigator.clipboard.writeText(`{content}`)'))
         
 def link_block(url: str, display_text: str = None):
-    """Create a copyable link block with icon"""
-    display = display_text or url  # Use URL if no display text provided
-    with ui.row().classes('items-center w-full bg-gray-100 dark:bg-gray-800 rounded p-2'):
-        ui.icon('link').classes('text-blue-500')
-        ui.label(display).classes('flex-grow text-sm truncate')
-        
-        # Compact copy button
-        ui.button(icon='content_copy', on_click=lambda: ui.run_javascript(f'navigator.clipboard.writeText(`{url}`)')) \
-            .props('flat dense') \
-            .classes('w-6 h-6 min-w-0 min-h-0 p-0 m-0 opacity-70 hover:opacity-100')
+    with ui.column().classes('w-full'):
+        """Create a copyable link block with icon"""
+        display = display_text or url  # Use URL if no display text provided
+        with ui.row().classes('items-center w-full bg-gray-100 dark:bg-gray-800 rounded p-2'):
+            ui.icon('link').classes('text-blue-500')
+            ui.label(display).classes('flex-grow text-sm truncate')
+            
+            # Compact copy button
+            ui.button(icon='content_copy', on_click=lambda: ui.run_javascript(f'navigator.clipboard.writeText(`{url}`)')) \
+                .props('flat dense') \
+                .classes('w-6 h-6 min-w-0 min-h-0 p-0 m-0 opacity-70 hover:opacity-100')
         
 def hint_block(content: str):
     #with ui.expansion('Expand!', caption='Expansion Caption').classes('w-full'):
@@ -144,7 +146,9 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
                 if 'content' in step.keys():
                     for [block_type,value] in step['content']:
                         if block_type == 'notes':
-                            ui.markdown(value).classes('ml-8 text-xs p-0 leading-none')
+                            ui.column().classes('w-full')
+                            with ui.row().classes('w-full ml-8'):
+                                ui.markdown(value).classes('ml-8 text-xs p-0 leading-none')
                         elif block_type == 'command_block':
                             code_block(value)
                         elif block_type == 'link_block':
