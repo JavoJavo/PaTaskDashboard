@@ -167,7 +167,10 @@ def display_task_with_checkboxes(task_data, indent_level=0, is_top_level=True):
                 display_task_with_checkboxes(step, indent_level + 2, False)  # Fixed from +2 to +1
 
 #task_scroll_positions = {}
-def main_section(task):
+def main_section(task, i=None):
+    current_task = ALL_TASKS.pop(i)
+    ALL_TASKS.insert(0, current_task)
+    draw_drawer_buttons(right_drawer)
     main_section_ui.clear()
     task_key = f"{task['env']}-{task['app']}"
     task_in_view = task_key
@@ -250,7 +253,7 @@ def draw_drawer_buttons(right_drawer):
         }
     }
 
-    for task in ALL_TASKS:
+    for i,task in enumerate(ALL_TASKS):
         task_key = f"{task['env']}-{task['app']}"
         status = tasks_status.get(task_key, "Unknown")
         config = status_config.get(status, {
@@ -259,7 +262,12 @@ def draw_drawer_buttons(right_drawer):
             "border": "border-l-grey-500",
             "progress": 0.0
         })
-        
+        highlight = (
+            "ring-2 ring-blue-400 border-l-8 shadow-lg "
+            "bg-gradient-to-r from-blue-50 to-blue-100 "
+            "dark:from-blue-900 dark:to-blue-800"
+            if i == 0 else ""
+        )
         with right_drawer:
             with ui.card().classes(f"""
                 w-full mb-1 p-0 overflow-hidden
@@ -268,7 +276,8 @@ def draw_drawer_buttons(right_drawer):
                 hover:shadow-md transition-shadow
                 cursor-pointer
                 flex-none
-                """).on("click", lambda t=task: main_section(t)):
+                {highlight}
+                """).on("click", lambda t=task, idx=i: main_section(t,i=idx)):
                 
                 # Tight header with original sizes
                 with ui.row().classes("w-full px-2 pt-1 items-center justify-between"):
@@ -295,7 +304,7 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
     
     main_section_ui = ui.column().classes('w-full') 
     draw_drawer_buttons(right_drawer)
-        # Right drawer:
+    main_section(ALL_TASKS[0], i=0)        # Right drawer:
         #with right_drawer:
             #draw_drawer_buttons(right_drawer)
             #ui.button(f"🏭 {task['app']} - {task['env']}\n{tasks_status[str(task['env'])+'-'+str(task['app'])]}", on_click=lambda t=task: main_section(t))
