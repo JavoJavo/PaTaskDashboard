@@ -198,59 +198,59 @@ def draw_drawer_buttons(right_drawer):
     # Status definitions with card colors and subtle gradients
     status_config = {          
         "Not Started": {
-            "icon": "⚪",
-            "color": "bg-blue-1",
-            "border": "border-l-blue-5",
-            "progress": 0.0
-        },
-        "Initial Checks": {
-            "icon": "🔍",
-            "color": "bg-blue-100",
-            "border": "border-l-blue-500",
-            "progress": 0.15
-        },
-        "Backup": {
-            "icon": "💾",
-            "color": "bg-indigo-100",
-            "border": "border-l-indigo-500",
-            "progress": 0.30
-        },
-        "Pre Steps": {
-            "icon": "📋",
-            "color": "bg-purple-100",
-            "border": "border-l-purple-500",
-            "progress": 0.45
-        },
-        "Deployment": {
-            "icon": "🚀",
-            "color": "bg-deep-purple-100",
-            "border": "border-l-deep-purple-500",
-            "progress": 0.60
-        },
-        "Post Steps": {
-            "icon": "🛠️",
-            "color": "bg-teal-100",
-            "border": "border-l-teal-500",
-            "progress": 0.75
-        },
-        "Post Checks": {
-            "icon": "✅",
-            "color": "bg-green-100",
-            "border": "border-l-green-500",
-            "progress": 0.90
-        },
-        "Completed": {
-            "icon": "🎉",
-            "color": "bg-positive-100",
-            "border": "border-l-positive",
-            "progress": 1.0
-        },
-        "Failed": {
-            "icon": "❌",
-            "color": "bg-negative-100",
-            "border": "border-l-negative",
-            "progress": 0.0
-        }
+        "icon": "⚪",
+        "color": "bg-gray-100",
+        "border": "border-l-gray-400",
+        "progress": 0.0
+    },
+    "Initial Checks": {
+        "icon": "🔍",
+        "color": "bg-blue-100",
+        "border": "border-l-blue-500",
+        "progress": 0.15
+    },
+    "Backup": {
+        "icon": "💾",
+        "color": "bg-purple-200",
+        "border": "border-l-purple-600",
+        "progress": 0.30
+    },
+    "Pre Steps": {
+        "icon": "📋",
+        "color": "bg-blue-200",
+        "border": "border-l-blue-600",
+        "progress": 0.45
+    },
+    "Deployment": {
+        "icon": "🚀",
+        "color": "bg-red-200",
+        "border": "border-l-red-600",
+        "progress": 0.60
+    },
+    "Post Steps": {
+        "icon": "🛠️",
+        "color": "bg-amber-100",
+        "border": "border-l-amber-500",
+        "progress": 0.75
+    },
+    "Post Checks": {
+        "icon": "✅",
+        "color": "bg-green-100",
+        "border": "border-l-green-500",
+        "progress": 0.90
+    },
+    "Completed": {
+        "icon": "🎉",
+        "color": "bg-pink-100",
+        "border": "border-l-pink-500",
+        "progress": 1.0
+    },
+    "Failed": {
+    "icon": "💥",
+    "color": "bg-red-300",
+    "border": "border-l-red-800",
+    "progress": 0.0
+    }
     }
 
     for i,task in enumerate(ALL_TASKS):
@@ -262,10 +262,13 @@ def draw_drawer_buttons(right_drawer):
             "border": "border-l-grey-500",
             "progress": 0.0
         })
+        base_color = task.get("border", "").replace("border-l-", "")  # e.g. "red-500"
         highlight = (
-            "ring-2 ring-blue-400 border-l-8 shadow-lg "
-            #"bg-gradient-to-r from-blue-50 to-blue-100 "
-            #"dark:from-blue-900 dark:to-blue-800"
+            f"ring-4 ring-{base_color} border-l-8 shadow-2xl "#animate-pulse "
+            f"bg-gradient-to-r from-{base_color.replace('-500','-50')} "
+            f"to-{base_color.replace('-500','-100')} "
+            f"dark:from-{base_color.replace('-500','-900')} "
+            f"dark:to-{base_color.replace('-500','-800')}"
             if i == 0 else ""
         )
         with right_drawer:
