@@ -264,8 +264,8 @@ def draw_drawer_buttons(right_drawer):
         })
         highlight = (
             "ring-2 ring-blue-400 border-l-8 shadow-lg "
-            "bg-gradient-to-r from-blue-50 to-blue-100 "
-            "dark:from-blue-900 dark:to-blue-800"
+            #"bg-gradient-to-r from-blue-50 to-blue-100 "
+            #"dark:from-blue-900 dark:to-blue-800"
             if i == 0 else ""
         )
         with right_drawer:
