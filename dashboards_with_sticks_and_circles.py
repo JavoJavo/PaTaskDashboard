@@ -263,8 +263,9 @@ def draw_drawer_buttons(right_drawer):
             "progress": 0.0
         })
         base_color = task.get("border", "").replace("border-l-", "")  # e.g. "red-500"
+        print(base_color)
         highlight = (
-            f"ring-4 ring-{base_color} border-l-8 shadow-2xl "#animate-pulse "
+            f"ring-8 ring-{base_color} border-l-8 shadow-2xl "#animate-pulse "
             f"bg-gradient-to-r from-{base_color.replace('-500','-50')} "
             f"to-{base_color.replace('-500','-100')} "
             f"dark:from-{base_color.replace('-500','-900')} "
