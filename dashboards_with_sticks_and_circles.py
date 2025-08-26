@@ -179,16 +179,9 @@ def main_section(task, i=None):
         
         # Create a unique scroll container for each task
         #with ui.card().classes('w-full'):
-        #    ui.scroll_area(on_scroll=lambda e: task_scroll_positions.update(
-        #        {str(task['env'])+'-'+str(task['app']): e.args['verticalPosition']}
-        #    ))
-        #    print(task_scroll_positions)
+        #    ui.scroll_area(on_scroll=lambda e: print(e.vertical_percentage))
             
-            # Restore previous scroll position if exists
-        #    if str(task['env'])+'-'+str(task['app']) in task_scroll_positions:
-        #        ui.run_javascript(f'''
-        #            document.getElementById("{scroll_area.id}").scrollTop = {task_scroll_positions[str(task['env'])+'-'+str(task['app'])]};
-        #        ''')
+
         display_task_with_checkboxes(task, 0, False)
 update_tasks_status()
 
@@ -263,7 +256,6 @@ def draw_drawer_buttons(right_drawer):
             "progress": 0.0
         })
         base_color = task.get("border", "").replace("border-l-", "")  # e.g. "red-500"
-        print(base_color)
         highlight = (
             f"ring-8 ring-{base_color} border-l-8 shadow-2xl "#animate-pulse "
             f"bg-gradient-to-r from-{base_color.replace('-500','-50')} "
