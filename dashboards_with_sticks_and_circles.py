@@ -185,66 +185,21 @@ def main_section(task, i=None):
         display_task_with_checkboxes(task, 0, False)
 update_tasks_status()
 
+def load_status_config(filepath='status_config.json'):
+    """Load status configuration from JSON file"""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            return json.load(file)
+    except:
+        print("Could not load file: status_config.json")
+        return None
+    
+    
 def draw_drawer_buttons(right_drawer):
     right_drawer.clear()
     
     # Status definitions with card colors and subtle gradients
-    status_config = {          
-        "Not Started": {
-        "icon": "⚪",
-        "color": "bg-gray-100",
-        "border": "border-l-gray-400",
-        "progress": 0.0
-    },
-    "Initial Checks": {
-        "icon": "🔍",
-        "color": "bg-blue-100",
-        "border": "border-l-blue-500",
-        "progress": 0.15
-    },
-    "Backup": {
-        "icon": "💾",
-        "color": "bg-purple-200",
-        "border": "border-l-purple-600",
-        "progress": 0.30
-    },
-    "Pre Steps": {
-        "icon": "📋",
-        "color": "bg-blue-200",
-        "border": "border-l-blue-600",
-        "progress": 0.45
-    },
-    "Deployment": {
-        "icon": "🚀",
-        "color": "bg-red-200",
-        "border": "border-l-red-600",
-        "progress": 0.60
-    },
-    "Post Steps": {
-        "icon": "🛠️",
-        "color": "bg-amber-100",
-        "border": "border-l-amber-500",
-        "progress": 0.75
-    },
-    "Post Checks": {
-        "icon": "✅",
-        "color": "bg-green-100",
-        "border": "border-l-green-500",
-        "progress": 0.90
-    },
-    "Completed": {
-        "icon": "🎉",
-        "color": "bg-pink-100",
-        "border": "border-l-pink-500",
-        "progress": 1.0
-    },
-    "Failed": {
-    "icon": "💥",
-    "color": "bg-red-300",
-    "border": "border-l-red-800",
-    "progress": 0.0
-    }
-    }
+    status_config = load_status_config()
 
     for i,task in enumerate(ALL_TASKS):
         task_key = f"{task['env']}-{task['app']}"
