@@ -70,7 +70,7 @@ class BlinkingAlert:
 #alert = BlinkingAlert('WARNING: High CPU usage detected!')
 
 # Left drawer (collapsible side menu)
-with open('list_of_tasks.yaml', 'r', encoding='utf-8') as file:
+with open('example_list_of_tasks.yaml', 'r', encoding='utf-8') as file:
     tasks_names_list = yaml.safe_load(file)
 current_tasks_names_list = {}
 for task in tasks_names_list:
@@ -225,7 +225,7 @@ def main_section(task, i=None):
         display_task_with_checkboxes(task, 0, False)
 update_tasks_status()
 
-def load_status_config(filepath='status_config.json'):
+def load_status_config(filepath='example_status_config.json'):
     """Load status configuration from JSON file"""
     try:
         with open(filepath, 'r', encoding='utf-8') as file:
