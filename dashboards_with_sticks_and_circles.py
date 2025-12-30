@@ -2,6 +2,7 @@ from nicegui import ui
 import json
 from typing import List, Optional
 import uuid
+import yaml
 #import watchfiles or watchdog
 
 # Add to your app startup (before UI creation)
@@ -15,7 +16,35 @@ ui.add_head_html('''
   }
 </style>
 ''')
-
+ui.add_css('''
+    /* Make the actual checkbox square smaller */
+    .small-checkbox .q-checkbox__bg {
+        width: 14px !important;
+        height: 14px !important;
+        left: 0 !important;
+        top: 1px !important;
+    }
+    
+    /* Make the check icon smaller */
+    .small-checkbox .q-checkbox__svg {
+        font-size: 12px !important;
+        width: 12px !important;
+        height: 12px !important;
+    }
+    
+    /* Adjust container */
+    .small-checkbox .q-checkbox__inner {
+        min-width: 14px !important;
+        width: 14px !important;
+        height: 14px !important;
+    }
+    
+    /* Adjust label position */
+    .small-checkbox .q-checkbox__label {
+        padding-left: 6px !important;
+        font-size: 12px !important;
+    }
+''')
 
 class BlinkingAlert:
     def __init__(self, message):
@@ -41,11 +70,22 @@ class BlinkingAlert:
 #alert = BlinkingAlert('WARNING: High CPU usage detected!')
 
 # Left drawer (collapsible side menu)
+with open('list_of_tasks.yaml', 'r', encoding='utf-8') as file:
+    tasks_names_list = yaml.safe_load(file)
+current_tasks_names_list = {}
+for task in tasks_names_list:
+    current_tasks_names_list[task] = False
+
 with ui.left_drawer(value=False).classes('bg-blue-100') as left_drawer:
-    ui.label("LEFT MENU")
-    ui.button("Option 1")
-    ui.button("Option 2")
-    ui.button("Close Left", on_click=left_drawer.toggle)
+    #ui.label("LEFT MENU")
+    with ui.expansion('Add tasks', icon='add').classes('w-full'):
+        with ui.column().classes('gap-0 small-checkbox'):
+            checkbox = ui.checkbox('check me').props('dense').classes('text-xs py-0')
+            checkbox = ui.checkbox('check me').props('dense').classes('text-xs py-0')
+            checkbox = ui.checkbox('check me').props('dense')
+            checkbox = ui.checkbox('check me').props('dense')
+            for key, value in current_tasks_names_list.items():
+                checkbox = ui.checkbox(key,value=value)
 
 # Right drawer (collapsible side menu)
 right_drawer = None
