@@ -290,9 +290,9 @@ for task in tasks_names_list:
     if task not in current_tasks_names_list:
         current_tasks_names_list[task] = False
 
-with ui.left_drawer(value=False).classes('bg-blue-100') as left_drawer:
+with ui.left_drawer(value=True).classes('bg-blue-100') as left_drawer:
     #ui.label("LEFT MENU")
-    with ui.expansion('Add tasks', icon='add').classes('w-full'):
+    with ui.expansion('Add tasks', icon='add', value=True).classes('w-full'):
         with ui.column().classes('gap-0 small-checkbox'):
             for key, loaded in current_tasks_names_list.items():
                 checkbox = ui.checkbox(key,value=loaded, on_change=lambda task=key: add_task(task,current_tasks_names_list[task]))
@@ -361,4 +361,4 @@ def add_task_from_template(task_name, loaded):
     update_tasks_status()
 
 ui.dark_mode().enable
-ui.run(native=True)
+ui.run(native=True, window_size=(int(400*3.25), 300*2))
