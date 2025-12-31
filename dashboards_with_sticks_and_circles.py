@@ -3,6 +3,7 @@ import json
 from typing import List, Optional
 import uuid
 import yaml
+from datetime import datetime
 #import watchfiles or watchdog
 
 # Add to your app startup (before UI creation)
@@ -69,30 +70,6 @@ class BlinkingAlert:
 # Usage
 #alert = BlinkingAlert('WARNING: High CPU usage detected!')
 
-# Left drawer (collapsible side menu)
-with open('example_list_of_tasks.yaml', 'r', encoding='utf-8') as file:
-    tasks_names_list = yaml.safe_load(file)
-current_tasks_names_list = {}
-for task in tasks_names_list:
-    current_tasks_names_list[task] = False
-
-with ui.left_drawer(value=False).classes('bg-blue-100') as left_drawer:
-    #ui.label("LEFT MENU")
-    with ui.expansion('Add tasks', icon='add').classes('w-full'):
-        with ui.column().classes('gap-0 small-checkbox'):
-            checkbox = ui.checkbox('check me').props('dense').classes('text-xs py-0')
-            checkbox = ui.checkbox('check me').props('dense').classes('text-xs py-0')
-            checkbox = ui.checkbox('check me').props('dense')
-            checkbox = ui.checkbox('check me').props('dense')
-            for key, value in current_tasks_names_list.items():
-                checkbox = ui.checkbox(key,value=value)
-
-# Right drawer (collapsible side menu)
-right_drawer = None
-with ui.right_drawer().classes('bg-green-100') as right_drawer:
-    ui.label("RIGHT MENU")
-    ui.button("Close Right", on_click=right_drawer.toggle)
-
 
 ALL_TASKS = []
 FILE = 'Processes.json'
@@ -104,14 +81,19 @@ def load_tasks(FILE):
         ALL_TASKS = json.load(f)
 
 def save_tasks(FILE, ALL_TASKS):
-    with open(FILE, 'w') as f:
-        json.dump(ALL_TASKS, f, indent=2)  # indent for readability
+    if FILE:
+        with open(FILE, 'w') as f:
+            json.dump(ALL_TASKS, f, indent=2)  # indent for readability
+    else:
+        with open(f'task_history/Processes_{datetime.now().strftime("%Y-%m-%d_%H")}.json', 'w') as f:
+            json.dump(ALL_TASKS, f, indent=2)
 
 try:
     from custom_functions import load_tasks, save_tasks
     ALL_TASKS = load_tasks(FILE)
 except:
-    load_tasks(FILE)
+    if FILE:
+        load_tasks(FILE)
 
 def code_block(content: str):
     with ui.column().classes('w-full'):
@@ -169,6 +151,7 @@ def on_changed_checkbox(step):
     if step['status'] == 'completed':
         step['status'] = 'pending'
     else:
+
         step['status'] = 'completed'
     save_tasks(FILE, ALL_TASKS)
     update_tasks_status()
@@ -283,6 +266,30 @@ def draw_drawer_buttons(right_drawer):
                     ui.label(status).classes("font-medium")
                     ui.icon("chevron_right").classes("text-gray-500")
                     
+# Right drawer (collapsible side menu)
+right_drawer = None
+with ui.right_drawer().classes('bg-green-100') as right_drawer:
+    ui.label("RIGHT MENU")
+    ui.button("Close Right", on_click=right_drawer.toggle)
+# Left drawer (collapsible side menu)
+current_tasks_names_list = {}
+if ALL_TASKS:
+    for task in ALL_TASKS:
+        task_key = f"{task['env']}-{task['app']}"
+        current_tasks_names_list[task_key] = True
+with open('example_list_of_tasks.yaml', 'r', encoding='utf-8') as file:
+    tasks_names_list = yaml.safe_load(file)
+for task in tasks_names_list:
+    if task not in current_tasks_names_list:
+        current_tasks_names_list[task] = False
+
+with ui.left_drawer(value=False).classes('bg-blue-100') as left_drawer:
+    #ui.label("LEFT MENU")
+    with ui.expansion('Add tasks', icon='add').classes('w-full'):
+        with ui.column().classes('gap-0 small-checkbox'):
+            for key, loaded in current_tasks_names_list.items():
+                checkbox = ui.checkbox(key,value=loaded, on_change=lambda task=key: add_task(task,current_tasks_names_list[task]))
+
 
 # Minimalist layout with better spacing
 with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relative' container
@@ -295,10 +302,27 @@ with ui.column().classes('w-full h-full p-2 gap-2 relative'):  # ← Add 'relati
     
     main_section_ui = ui.column().classes('w-full') 
     draw_drawer_buttons(right_drawer)
-    main_section(ALL_TASKS[0], i=0)        # Right drawer:
+    #main_section(ALL_TASKS[0], i=0)        # Right drawer:
         #with right_drawer:
             #draw_drawer_buttons(right_drawer)
             #ui.button(f"🏭 {task['app']} - {task['env']}\n{tasks_status[str(task['env'])+'-'+str(task['app'])]}", on_click=lambda t=task: main_section(t))
+
+if ALL_TASKS:
+    main_section(ALL_TASKS[0], i=0) 
+    
+
+
+
+def update_list_of_tasks():
+    pass
+def add_task(task_name, loaded):
+    if loaded == False:
+        with open('tasks_processes/{}.json'.format(task_name),'r') as f:
+            task = json.load(f)
+            ALL_TASKS.append(task[0])
+        current_tasks_names_list[task_name] = True
+        draw_drawer_buttons(right_drawer)
+    main_section(ALL_TASKS[0], i=0) 
 
 ui.dark_mode().enable
 ui.run(native=True)
