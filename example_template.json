@@ -18,7 +18,7 @@
         "steps": [
           {
             "name": "Start task",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check {{ma_guys_name}} is present and OK before starting.",
@@ -53,11 +53,11 @@
                 "steps": [
                   {
                     "name": "One {{ma_guys_extremity}}",
-                    "status": "completed"
+                    "status": "pending"
                   },
                   {
                     "name": "The other {{ma_guys_extremity}}",
-                    "status": "completed"
+                    "status": "pending"
                   }
                 ]
               }
@@ -65,7 +65,7 @@
           },
           {
             "name": "Check if {{ma_guys_name}} is visible",
-            "status": "completed",
+            "status": "pending",
             "content": [
               [
                 "link_block",
@@ -90,15 +90,15 @@
         "steps": [
           {
             "name": "Quick look at {{ma_guys_name}} to see if he is complete",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check if {{ma_guys_name}} fits cloning machine and there is enough space for both {{ma_guys_name}}s.",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Clone {{ma_guys_name}}, inspect clone {{ma_guys_name}} is OK",
-            "status": "completed",
+            "status": "pending",
             "content": [
               [
                 "command_block",
@@ -123,7 +123,7 @@
         "steps": [
           {
             "name": "Play with {{ma_guys_name}}.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       },
@@ -142,11 +142,11 @@
         "steps": [
           {
             "name": "Deploy {{ma_guys_name}} to war and hope he doesn't die. If he dies, there is {{ma_guys_name}} clone, although it won't be the same :'(",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check if {{ma_guys_name}} returns, if he does, he will have learned many new things. He went to war to study and learn, not to kill.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       },
@@ -165,7 +165,7 @@
         "steps": [
           {
             "name": "Give a {{gift_for_ma_guy}} to {{ma_guys_name}} to celebrate, {{ma_guys_name}}s clone can join too.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       },
@@ -184,11 +184,11 @@
         "steps": [
           {
             "name": "Check {{ma_guys_name}} is not injured in his body.",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check {{ma_guys_name}} is not injured in his mind.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       }

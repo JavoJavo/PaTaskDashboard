@@ -19,7 +19,7 @@
         "steps": [
           {
             "name": "Start task",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check Bob is present and OK before starting.",
@@ -54,11 +54,11 @@
                 "steps": [
                   {
                     "name": "One arm",
-                    "status": "completed"
+                    "status": "pending"
                   },
                   {
                     "name": "The other arm",
-                    "status": "completed"
+                    "status": "pending"
                   }
                 ]
               }
@@ -66,7 +66,7 @@
           },
           {
             "name": "Check if Bob is visible",
-            "status": "completed",
+            "status": "pending",
             "content": [
               [
                 "link_block",
@@ -91,15 +91,15 @@
         "steps": [
           {
             "name": "Quick look at Bob to see if he is complete",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check if Bob fits cloning machine and there is enough space for both Bobs.",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Clone Bob, inspect clone Bob is OK",
-            "status": "completed",
+            "status": "pending",
             "content": [
               [
                 "command_block",
@@ -124,7 +124,7 @@
         "steps": [
           {
             "name": "Play with Bob.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       },
@@ -143,11 +143,11 @@
         "steps": [
           {
             "name": "Deploy BOB to war and hope he doesn't die. If he dies, there is BOB clone, although it won't be the same :'(",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check if BOB returns, if he does, he will have learned many new things. He went to war to study and learn, not to kill.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       },
@@ -166,7 +166,7 @@
         "steps": [
           {
             "name": "Give a candy to BOB to celebrate, Bob clone can join too.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       },
@@ -185,11 +185,11 @@
         "steps": [
           {
             "name": "Check BOB is not injured in his body.",
-            "status": "completed"
+            "status": "pending"
           },
           {
             "name": "Check BOB is not injured in his mind.",
-            "status": "completed"
+            "status": "pending"
           }
         ]
       }
