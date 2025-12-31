@@ -1,0 +1,10 @@
+paths:
+  input:
+    status_config_file: "example_status_config.json"
+    list_of_tasks_file: "example_list_of_tasks.yaml"
+    single_file_processes_dir: "tasks_processes"
+    env_variables: "example_conf.yaml"
+    tasks_template: "example_template.json"
+  
+  output:
+    task_history_dir: "task_history"
