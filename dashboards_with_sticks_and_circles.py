@@ -215,7 +215,7 @@ def load_status_config(filepath='example_status_config.json'):
         with open(filepath, 'r', encoding='utf-8') as file:
             return json.load(file)
     except:
-        print("Could not load file: _example_status_config.json")
+        print("Could not load file: example_status_config.json")
         return None
     
     
