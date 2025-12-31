@@ -1,0 +1,48 @@
+DEV:
+  APP1:
+    ma_guys_name: Bob
+    ma_guys_extremity: arm
+    gift_for_ma_guy: candy
+  APP2:
+    bike_model: kid
+    storage_unit: basement
+    money_storage_unit: pocket
+    threat_type: suqirrels
+    celebration: Yesss!
+
+QA:
+  APP1:
+    ma_guys_name: Andy
+    ma_guys_extremity: leg
+    gift_for_ma_guy: juice
+  APP2:
+    bike_model: mountain
+    storage_unit: closet
+    money_storage_unit: wallet
+    threat_type: bears
+    celebration: Awesome!!
+
+PROD: 
+  APP1:
+    ma_guys_name: Andrea
+    ma_guys_extremity: finger
+    gift_for_ma_guy: apple
+  APP2:
+    bike_model: road
+    storage_unit: storage room
+    money_storage_unit: bank
+    threat_type: robber
+    celebration: Great job!
+
+TEST:
+  APP1:
+    ma_guys_name: Keanu
+    ma_guys_extremity: foot
+    gift_for_ma_guy: water-gun
+  APP2:
+    bike_model: ninja
+    storage_unit: 3-level-basement
+    money_storage_unit: safe
+    threat_type: assassins
+    celebration: I want to spend some time with my dog now.
+  

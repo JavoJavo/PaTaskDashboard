@@ -1,0 +1,244 @@
+{   "APP1":
+  {
+    "app": "APP1",
+    "template": "True",
+    "steps": [
+      {
+        "name": "Initial Checks",
+        "status": "pending",
+        "eta": 60,
+        "start": "None",
+        "end": "None",
+        "content": [
+          [
+            "notes",
+            "Run initial checks"
+          ]
+        ],
+        "steps": [
+          {
+            "name": "Start task",
+            "status": "completed"
+          },
+          {
+            "name": "Check {{ma_guys_name}} is present and OK before starting.",
+            "status": "pending",
+            "steps": [
+              {
+                "name": "{{ma_guys_name}} is present",
+                "status": "pending",
+                "content": [
+                  [
+                    "command_block","is_{{ma_guys_name}}_present.sh"
+                  ]
+                ]
+              },
+              {
+                "name": "{{ma_guys_name}} is okay",
+                "status": "pending",
+                "content": [
+                  [
+                    "notes",
+                    "Run both checks on each of {{ma_guys_name}}'s arms:\n  "
+                  ],
+                  [
+                    "command_block",
+                    "python check_pressure.py\n"
+                  ],
+                  [
+                    "command_block",
+                    "cd ./{{ma_guys_name}}s/other/{{ma_guys_extremity}}\npython check_pressure.py"
+                  ]
+                ],
+                "steps": [
+                  {
+                    "name": "One {{ma_guys_extremity}}",
+                    "status": "completed"
+                  },
+                  {
+                    "name": "The other {{ma_guys_extremity}}",
+                    "status": "completed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Check if {{ma_guys_name}} is visible",
+            "status": "completed",
+            "content": [
+              [
+                "link_block",
+                "https://say_hi_to_healthy_{{ma_guys_name}}.com"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Backup",
+        "eta": 300,
+        "status": "pending",
+        "start": "None",
+        "end": "None",
+        "content": [
+          [
+            "notes",
+            "Make a copy of {{ma_guys_name}} and both of his arms"
+          ]
+        ],
+        "steps": [
+          {
+            "name": "Quick look at {{ma_guys_name}} to see if he is complete",
+            "status": "completed"
+          },
+          {
+            "name": "Check if {{ma_guys_name}} fits cloning machine and there is enough space for both {{ma_guys_name}}s.",
+            "status": "completed"
+          },
+          {
+            "name": "Clone {{ma_guys_name}}, inspect clone {{ma_guys_name}} is OK",
+            "status": "completed",
+            "content": [
+              [
+                "command_block",
+                "check_if_BOBclone_is_like_{{ma_guys_name}}.sh"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Pre Steps",
+        "eta": 600,
+        "status": "pending",
+        "start": "None",
+        "end": "None",
+        "content": [
+          [
+            "notes",
+            "Apply minor steps"
+          ]
+        ],
+        "steps": [
+          {
+            "name": "Play with {{ma_guys_name}}.",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Deployment",
+        "eta": 600,
+        "status": "pending",
+        "start": "None",
+        "end": "None",
+        "content": [
+          [
+            "notes",
+            "Deploy"
+          ]
+        ],
+        "steps": [
+          {
+            "name": "Deploy {{ma_guys_name}} to war and hope he doesn't die. If he dies, there is {{ma_guys_name}} clone, although it won't be the same :'(",
+            "status": "completed"
+          },
+          {
+            "name": "Check if {{ma_guys_name}} returns, if he does, he will have learned many new things. He went to war to study and learn, not to kill.",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Post Steps",
+        "eta": 600,
+        "status": "pending",
+        "start": "None",
+        "end": "None",
+        "content": [
+          [
+            "notes",
+            "Apply minor (but important) steps"
+          ]
+        ],
+        "steps": [
+          {
+            "name": "Give a {{gift_for_ma_guy}} to {{ma_guys_name}} to celebrate, {{ma_guys_name}}s clone can join too.",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Post Checks",
+        "eta": 600,
+        "status": "pending",
+        "start": "None",
+        "end": "None",
+        "content": [
+          [
+            "notes",
+            "Check everything OK"
+          ]
+        ],
+        "steps": [
+          {
+            "name": "Check {{ma_guys_name}} is not injured in his body.",
+            "status": "completed"
+          },
+          {
+            "name": "Check {{ma_guys_name}} is not injured in his mind.",
+            "status": "completed"
+          }
+        ]
+      }
+    ]
+  },
+  "APP2":
+        {"app": "APP2",
+        "steps": [
+            {"name": "Initial Checks", "status": "pending", "eta": 60, "start": "None", "end": "None", "content":[
+                ["notes", "Run initial checks"]
+            ],
+             "steps": [
+                {"name": "Check if the {{bike_model}} bike is okay.", "status": "pending"},
+                {"name": "Check there's enough space in the {{storage_unit}}:", "status": "pending",
+                 "content":[
+                        ["command_block","python check_{{storage_unit}}.py {{bike_model}}\n"]
+                        ]}
+             ]},
+            {"name": "Backup", "eta": 300, "status": "pending", "start": "None", "end": "None",
+            "steps": [
+                {"name":"Leave {{bike_model}} bike at {{storage_unit}} and take a picture of it.", "status": "pending"}
+            ]},
+            {"name": "Pre Steps", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            "content": [
+                ["notes", "📷 Check for money in {{money_storage_unit}} to buy new model {{bike_model}} bike."]
+            ],
+            "steps":[
+                {"name":"to_define"}
+            ]},
+            {"name": "Deployment", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            "content": [
+                ["notes", "Go to the store and buy."]
+            ],
+            "steps":[
+                {"name":"Check no one robs you when you go to buy at the store.",
+                "content": [
+                    ["command_block", "sh scan_for_{{threat_type}}.sh"]
+                ]}
+            ]},
+            {"name": "Post Steps", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            "content": [
+                ["notes", "Apply minor steps"]
+            ],
+            "steps":[
+                {"name":"Say: \"{{celebration}}\""}
+            ]},
+            {"name": "Post Checks", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            "content": [
+                ["notes", "Check everything OK"]
+            ]}
+        ]
+    }
+}

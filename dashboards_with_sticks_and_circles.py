@@ -4,6 +4,7 @@ from typing import List, Optional
 import uuid
 import yaml
 from datetime import datetime
+import copy
 #import watchfiles or watchdog
 
 # Add to your app startup (before UI creation)
@@ -72,7 +73,7 @@ class BlinkingAlert:
 
 
 ALL_TASKS = []
-FILE = 'Processes.json'
+FILE = None# Add file here to start from previous session saved.
 task_in_view = None
 # Load sample data
 def load_tasks(FILE):
@@ -317,12 +318,41 @@ def update_list_of_tasks():
     pass
 def add_task(task_name, loaded):
     if loaded == False:
-        with open('tasks_processes/{}.json'.format(task_name),'r') as f:
-            task = json.load(f)
-            ALL_TASKS.append(task[0])
-        current_tasks_names_list[task_name] = True
-        draw_drawer_buttons(right_drawer)
+        try:
+            with open('tasks_processes/{}.json'.format(task_name),'r') as f:
+                task = json.load(f)
+                ALL_TASKS.append(task[0])
+            current_tasks_names_list[task_name] = True
+            draw_drawer_buttons(right_drawer)
+            update_tasks_status()
+        except:
+            add_task_from_template(task_name, loaded)
     main_section(ALL_TASKS[0], i=0) 
+
+def replace_vars_with_values(template_copy,d):
+    for key, val in d.items():
+        template_copy = template_copy.replace(f"{{{{{key}}}}}", str(val))
+    return template_copy
+def load_app(env, app, config, template_copy):
+    variables_dict = {}
+    try:
+        for key, value in config.items():
+            variables_dict[key] = value
+    except:
+        print('Error at load_app() with {} and {}'.format(env,app))
+    app_json = json.loads(replace_vars_with_values(json.dumps(template_copy),variables_dict))
+    app_json['env'] = env
+    return app_json
+def add_task_from_template(task_name, loaded):
+    with open('example_conf.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+    with open("example_template.json", "r", encoding="utf-8") as f:
+        template = json.load(f)
+    env, app = task_name.split('-')
+    ALL_TASKS.append(load_app(env,app,config[env][app],copy.deepcopy(template[app])))
+    current_tasks_names_list[task_name] = True
+    draw_drawer_buttons(right_drawer)
+    update_tasks_status()
 
 ui.dark_mode().enable
 ui.run(native=True)
