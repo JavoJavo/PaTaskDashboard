@@ -7,6 +7,12 @@ from datetime import datetime
 import copy
 #import watchfiles or watchdog
 
+def load_file_path_conf():
+    with open('file_path_conf.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+        return config
+config = load_file_path_conf()
+
 # Add to your app startup (before UI creation)
 ui.add_head_html('''
 <style>
@@ -86,7 +92,7 @@ def save_tasks(FILE, ALL_TASKS):
         with open(FILE, 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)  # indent for readability
     else:
-        with open(f'task_history/Processes_{datetime.now().strftime("%Y-%m-%d_%H")}.json', 'w') as f:
+        with open(f"{config['paths']['output']['task_history_dir']}/Processes_{datetime.now().strftime('%Y-%m-%d_%H')}.json", 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)
 
 try:
@@ -209,13 +215,13 @@ def main_section(task, i=None):
         display_task_with_checkboxes(task, 0, False)
 update_tasks_status()
 
-def load_status_config(filepath='example_status_config.json'):
+def load_status_config(filepath=config['paths']['input']['status_config_file']):
     """Load status configuration from JSON file"""
     try:
         with open(filepath, 'r', encoding='utf-8') as file:
             return json.load(file)
     except:
-        print("Could not load file: example_status_config.json")
+        print("Could not load file: {}".format(config['paths']['input']['status_config_file']))
         return None
     
     
@@ -278,7 +284,7 @@ if ALL_TASKS:
     for task in ALL_TASKS:
         task_key = f"{task['env']}-{task['app']}"
         current_tasks_names_list[task_key] = True
-with open('example_list_of_tasks.yaml', 'r', encoding='utf-8') as file:
+with open(config['paths']['input']['list_of_tasks_file'], 'r', encoding='utf-8') as file:
     tasks_names_list = yaml.safe_load(file)
 for task in tasks_names_list:
     if task not in current_tasks_names_list:
@@ -319,7 +325,7 @@ def update_list_of_tasks():
 def add_task(task_name, loaded):
     if loaded == False:
         try:
-            with open('tasks_processes/{}.json'.format(task_name),'r') as f:
+            with open(config['paths']['input']['single_file_processes_dir']+'/{}.json'.format(task_name),'r') as f:
                 task = json.load(f)
                 ALL_TASKS.append(task[0])
             current_tasks_names_list[task_name] = True
@@ -344,12 +350,12 @@ def load_app(env, app, config, template_copy):
     app_json['env'] = env
     return app_json
 def add_task_from_template(task_name, loaded):
-    with open('example_conf.yaml', 'r') as f:
-        config = yaml.safe_load(f)
-    with open("example_template.json", "r", encoding="utf-8") as f:
+    with open(config['paths']['input']['env_variables'], 'r') as f:
+        config_ = yaml.safe_load(f)
+    with open(config['paths']['input']['tasks_template'], "r", encoding="utf-8") as f:
         template = json.load(f)
     env, app = task_name.split('-')
-    ALL_TASKS.append(load_app(env,app,config[env][app],copy.deepcopy(template[app])))
+    ALL_TASKS.append(load_app(env,app,config_[env][app],copy.deepcopy(template[app])))
     current_tasks_names_list[task_name] = True
     draw_drawer_buttons(right_drawer)
     update_tasks_status()
