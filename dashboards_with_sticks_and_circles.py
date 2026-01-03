@@ -95,11 +95,7 @@ def save_tasks(FILE, ALL_TASKS):
         with open(f"{config['paths']['output']['task_history_dir']}/Processes_{datetime.now().strftime('%Y-%m-%d_%H')}.json", 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)
 
-try:
-    from custom_functions import load_tasks, save_tasks
-    ALL_TASKS = load_tasks(FILE)
-except:
-    if FILE:
+if FILE:
         load_tasks(FILE)
 
 def code_block(content: str):
