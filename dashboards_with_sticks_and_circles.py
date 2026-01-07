@@ -5,9 +5,15 @@ import uuid
 import yaml
 from datetime import datetime
 import copy
-from pathlib import Path
+import os, sys
 #import watchfiles or watchdog
 
+def get_PATH():
+    #EXE_DIR = os.path.dirname(sys.executable)
+    #PATH = os.path.join(EXE_DIR, path)
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(sys.executable)+'/'
+    return os.path.dirname(os.path.abspath(__file__))+'/'
 
 class BlinkingAlert:
     def __init__(self, message):
@@ -189,13 +195,13 @@ def root():
 
             display_task_with_checkboxes(task, 0, False)
 
-    def load_status_config(filepath=Path(__file__).resolve().with_name(config['paths']['input']['status_config_file'])):
+    def load_status_config(filepath=get_PATH()+config['paths']['input']['status_config_file']):
         """Load status configuration from JSON file"""
         try:
             with open(filepath, 'r', encoding='utf-8') as file:
                 return json.load(file)
         except:
-            print("Could not load file: {}".format(Path(__file__).resolve().with_name(config['paths']['input']['status_config_file'])))
+            print("Could not load file: {}".format(filepath))
             return None
     status_config = {}    
     def draw_drawer_buttons(right_drawer):
@@ -256,7 +262,7 @@ def root():
         for task in ALL_TASKS:
             task_key = f"{task['env']}-{task['app']}"
             current_tasks_names_list[task_key] = True
-    with open(Path(__file__).resolve().with_name(config['paths']['input']['list_of_tasks_file']), 'r', encoding='utf-8') as file:
+    with open(get_PATH()+config['paths']['input']['list_of_tasks_file'], 'r', encoding='utf-8') as file:
         tasks_names_list = yaml.safe_load(file)
     for task in tasks_names_list:
         if task not in current_tasks_names_list:
@@ -296,7 +302,7 @@ def root():
         global config
         if loaded == False:
             try:
-                with open(Path(__file__).resolve().with_name(config['paths']['input']['single_file_processes_dir']).joinpath('{}.json'.format(task_name)),'r') as f:
+                with open(get_PATH()+config['paths']['input']['single_file_processes_dir']+'/{}.json'.format(task_name),'r') as f:
                     task = json.load(f)
                     ALL_TASKS.append(task[0])
                 current_tasks_names_list[task_name] = True
@@ -321,9 +327,9 @@ def root():
         app_json['env'] = env
         return app_json
     def add_task_from_template(task_name, loaded):
-        with open(Path(__file__).resolve().with_name(config['paths']['input']['env_variables']), 'r') as f:
+        with open(get_PATH()+config['paths']['input']['env_variables'], 'r') as f:
             config_ = yaml.safe_load(f)
-        with open(Path(__file__).resolve().with_name(config['paths']['input']['tasks_template']), "r", encoding="utf-8") as f:
+        with open(get_PATH()+config['paths']['input']['tasks_template'], "r", encoding="utf-8") as f:
             template = json.load(f)
         env, app = task_name.split('-')
         ALL_TASKS.append(load_app(env,app,config_[env][app],copy.deepcopy(template[app])))
@@ -332,7 +338,7 @@ def root():
         update_tasks_status()
         
 def load_file_path_conf():
-    with open(Path(__file__).resolve().with_name('file_path_conf.yaml'), 'r') as f:
+    with open(get_PATH()+'file_path_conf.yaml', 'r') as f:
         config = yaml.safe_load(f)
         return config
 config = load_file_path_conf()
@@ -347,7 +353,7 @@ def save_tasks(FILE, ALL_TASKS):
         with open(FILE, 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)  # indent for readability
     else:
-        with open(Path(__file__).resolve().with_name(config['paths']['output']['task_history_dir']).joinpath(f"Processes_{datetime.now().strftime('%Y-%m-%d_%H')}.json"), 'w') as f:
+        with open(get_PATH()+config['paths']['output']['task_history_dir']+f"/Processes_{datetime.now().strftime('%Y-%m-%d_%H')}.json", 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)
 
 ALL_TASKS = []
