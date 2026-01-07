@@ -33,7 +33,7 @@ jobs:
       - name: Rename executable
         run: |
           if [[ "$RUNNER_OS" == "Windows" ]]; then
-            mv dist/app.exe dist/PaTaskDashboard.exe
+            mv dist/PaTaskDashboard.exe dist/PaTaskDashboard.exe
           elif [[ "$RUNNER_OS" == "Linux" ]]; then
             mv dist/app dist/PaTaskDashboard-linux
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
