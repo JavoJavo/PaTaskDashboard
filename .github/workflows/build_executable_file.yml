@@ -42,6 +42,46 @@ jobs:
           fi
         shell: bash
 
+      - name: Prepare Release Folder
+        run: |
+          mkdir PaTaskDashboard-win PaTaskDashboard-linux PaTaskDashboard-macos
+          
+          mkdir PaTaskDashboard-win/task_history PaTaskDashboard-win/tasks_processes
+          mkdir PaTaskDashboard-linux/task_history PaTaskDashboard-linux/tasks_processes
+          mkdir PaTaskDashboard-macos/task_history PaTaskDashboard-macos/tasks_processes
+          
+          cp dist/PaTaskDashboard.exe PaTaskDashboard-win/
+          cp dist/PaTaskDashboard-linux PaTaskDashboard-linux/
+          cp dist/PaTaskDashboard-macos PaTaskDashboard-macos/
+
+          cp tasks_processes/* PaTaskDashboard-win/tasks_processes/
+          cp tasks_processes/* PaTaskDashboard-linux/tasks_processes/
+          cp tasks_processes/* PaTaskDashboard-macos/tasks_processes/
+
+          cp example_conf.yaml PaTaskDashboard-win/
+          cp example_list_of_tasks.yaml PaTaskDashboard-win/
+          cp example_status_config.json PaTaskDashboard-win/
+          cp example_template.json PaTaskDashboard-win/
+          cp file_path_conf.yaml PaTaskDashboard-win/
+
+          cp example_conf.yaml PaTaskDashboard-linux/
+          cp example_list_of_tasks.yaml PaTaskDashboard-linux/
+          cp example_status_config.json PaTaskDashboard-linux/
+          cp example_template.json PaTaskDashboard-linux/
+          cp file_path_conf.yaml PaTaskDashboard-linux/
+
+          cp example_conf.yaml PaTaskDashboard-macos/
+          cp example_list_of_tasks.yaml PaTaskDashboard-macos/
+          cp example_status_config.json PaTaskDashboard-macos/
+          cp example_template.json PaTaskDashboard-macos/
+          cp file_path_conf.yaml PaTaskDashboard-macos/
+
+          zip -r PaTaskDashboard-linux.zip PaTaskDashboard-linux
+          zip -r PaTaskDashboard.win.zip PaTaskDashboard-win
+          zip -r PaTaskDashboard-macos.zip PaTaskDashboard-macos
+          
+        shell: bash
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -75,6 +115,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            PaTaskDashboard-linux
-            PaTaskDashboard.exe
-            PaTaskDashboard-macos
+            PaTaskDashboard-linux.zip
+            PaTaskDashboard.win.zip
+            PaTaskDashboard-macos.zip
