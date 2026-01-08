@@ -28,16 +28,16 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build executable
-        run: pyinstaller --onefile dashboards_with_sticks_and_circles.py
+        run: pyinstaller --onefile --name "PaTaskDashboard" dashboards_with_sticks_and_circles.py
 
       - name: Rename executable
         run: |
           if [[ "$RUNNER_OS" == "Windows" ]]; then
-            mv dist/app.exe dist/app-windows.exe
+            mv dist/PaTaskDashboard.exe dist/app-windows.exe
           elif [[ "$RUNNER_OS" == "Linux" ]]; then
-            mv dist/app dist/app-linux
+            mv dist/PaTaskDashboard dist/app-linux
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            mv dist/app dist/app-macos
+            mv dist/PaTaskDashboard dist/app-macos
           fi
         shell: bash
 
