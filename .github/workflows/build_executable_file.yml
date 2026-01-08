@@ -54,7 +54,7 @@ jobs:
             cp example_template.json PaTaskDashboard-win/
             cp file_path_conf.yaml PaTaskDashboard-win/
             cp dist/PaTaskDashboard.exe PaTaskDashboard-win/
-            zip -r PaTaskDashboard.win.zip PaTaskDashboard-win
+            7z a PaTaskDashboard.win.zip PaTaskDashboard-win
           elif [[ "$RUNNER_OS" == "Linux" ]]; then
             mkdir PaTaskDashboard-linux
             mkdir PaTaskDashboard-linux/task_history PaTaskDashboard-linux/tasks_processes
