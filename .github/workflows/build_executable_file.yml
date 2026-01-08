@@ -44,43 +44,40 @@ jobs:
 
       - name: Prepare Release Folder
         run: |
-          mkdir PaTaskDashboard-win PaTaskDashboard-linux PaTaskDashboard-macos
-          
-          mkdir PaTaskDashboard-win/task_history PaTaskDashboard-win/tasks_processes
-          mkdir PaTaskDashboard-linux/task_history PaTaskDashboard-linux/tasks_processes
-          mkdir PaTaskDashboard-macos/task_history PaTaskDashboard-macos/tasks_processes
-
-          cp tasks_processes/* PaTaskDashboard-win/tasks_processes/
-          cp tasks_processes/* PaTaskDashboard-linux/tasks_processes/
-          cp tasks_processes/* PaTaskDashboard-macos/tasks_processes/
-
-          cp example_conf.yaml PaTaskDashboard-win/
-          cp example_list_of_tasks.yaml PaTaskDashboard-win/
-          cp example_status_config.json PaTaskDashboard-win/
-          cp example_template.json PaTaskDashboard-win/
-          cp file_path_conf.yaml PaTaskDashboard-win/
-
-          cp example_conf.yaml PaTaskDashboard-linux/
-          cp example_list_of_tasks.yaml PaTaskDashboard-linux/
-          cp example_status_config.json PaTaskDashboard-linux/
-          cp example_template.json PaTaskDashboard-linux/
-          cp file_path_conf.yaml PaTaskDashboard-linux/
-
-          cp example_conf.yaml PaTaskDashboard-macos/
-          cp example_list_of_tasks.yaml PaTaskDashboard-macos/
-          cp example_status_config.json PaTaskDashboard-macos/
-          cp example_template.json PaTaskDashboard-macos/
-          cp file_path_conf.yaml PaTaskDashboard-macos/
-
-            
-          cp dist/PaTaskDashboard-linux PaTaskDashboard-linux/
-          cp dist/PaTaskDashboard-macos PaTaskDashboard-macos/
-          cp dist/PaTaskDashboard.exe PaTaskDashboard-win/
-
-          zip -r PaTaskDashboard-linux.zip PaTaskDashboard-linux
-          zip -r PaTaskDashboard.win.zip PaTaskDashboard-win
-          zip -r PaTaskDashboard-macos.zip PaTaskDashboard-macos
-          
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            mkdir PaTaskDashboard-win
+            mkdir PaTaskDashboard-win/task_history PaTaskDashboard-win/tasks_processes
+            cp tasks_processes/* PaTaskDashboard-win/tasks_processes/
+            cp example_conf.yaml PaTaskDashboard-win/
+            cp example_list_of_tasks.yaml PaTaskDashboard-win/
+            cp example_status_config.json PaTaskDashboard-win/
+            cp example_template.json PaTaskDashboard-win/
+            cp file_path_conf.yaml PaTaskDashboard-win/
+            cp dist/PaTaskDashboard.exe PaTaskDashboard-win/
+            zip -r PaTaskDashboard.win.zip PaTaskDashboard-win
+          elif [[ "$RUNNER_OS" == "Linux" ]]; then
+            mkdir PaTaskDashboard-linux
+            mkdir PaTaskDashboard-linux/task_history PaTaskDashboard-linux/tasks_processes
+            cp tasks_processes/* PaTaskDashboard-linux/tasks_processes/
+            cp example_conf.yaml PaTaskDashboard-linux/
+            cp example_list_of_tasks.yaml PaTaskDashboard-linux/
+            cp example_status_config.json PaTaskDashboard-linux/
+            cp example_template.json PaTaskDashboard-linux/
+            cp file_path_conf.yaml PaTaskDashboard-linux/
+            cp dist/PaTaskDashboard-linux PaTaskDashboard-linux/
+            zip -r PaTaskDashboard-linux.zip PaTaskDashboard-linux
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            mkdir PaTaskDashboard-macos
+            mkdir PaTaskDashboard-macos/task_history PaTaskDashboard-macos/tasks_processes
+            cp tasks_processes/* PaTaskDashboard-macos/tasks_processes/
+            cp example_conf.yaml PaTaskDashboard-macos/
+            cp example_list_of_tasks.yaml PaTaskDashboard-macos/
+            cp example_status_config.json PaTaskDashboard-macos/
+            cp example_template.json PaTaskDashboard-macos/
+            cp file_path_conf.yaml PaTaskDashboard-macos/
+            cp dist/PaTaskDashboard-macos PaTaskDashboard-macos/
+            zip -r PaTaskDashboard-macos.zip PaTaskDashboard-macos
+          fi
         shell: bash
         
       - name: Upload artifact
