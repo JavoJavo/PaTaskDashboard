@@ -28,7 +28,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build executable
-        run: pyinstaller --onefile app.py
+        run: pyinstaller --onefile dashboards_with_sticks_and_circles.py
 
       - name: Rename executable
         run: |
