@@ -11,3 +11,4 @@ Developed to keep track of different processes taking place at the same time.
 - Analytics, data visualizations with data generated
 - Anomaly detections, alarms (for example when process is taking long time)
 - Track running tasks some way (other than delta between checkboxes clicks). Maybe implament start/pause/finish/failed/etc button within single tasks.
+- Make new page for process viewing edditing and creation
