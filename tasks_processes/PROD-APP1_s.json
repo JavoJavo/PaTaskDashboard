@@ -3,6 +3,7 @@
     "env": "PROD",
     "app": "APP1_s",
     "template": "True",
+    "global_time_pointer": "None",
     "steps": [
       {
         "name": "Initial Checks",
@@ -10,6 +11,9 @@
         "eta": 60,
         "start": "None",
         "end": "None",
+        "time_tracking": {
+          "start_end": []
+        },
         "content": [
           [
             "notes",
@@ -19,15 +23,24 @@
         "steps": [
           {
             "name": "Start task",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           },
           {
             "name": "Check Bob is present and OK before starting.",
             "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
             "steps": [
               {
                 "name": "BOB is present",
                 "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
                 "content": [
                   [
                     "command_block","is_bob_present.sh"
@@ -37,6 +50,9 @@
               {
                 "name": "BOB is okay",
                 "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
                 "content": [
                   [
                     "notes",
@@ -54,11 +70,17 @@
                 "steps": [
                   {
                     "name": "One arm",
-                    "status": "pending"
+                    "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
                   },
                   {
                     "name": "The other arm",
-                    "status": "pending"
+                    "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
                   }
                 ]
               }
@@ -67,6 +89,9 @@
           {
             "name": "Check if Bob is visible",
             "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
             "content": [
               [
                 "link_block",
@@ -80,6 +105,9 @@
         "name": "Backup",
         "eta": 300,
         "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
         "start": "None",
         "end": "None",
         "content": [
@@ -91,15 +119,24 @@
         "steps": [
           {
             "name": "Quick look at Bob to see if he is complete",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           },
           {
             "name": "Check if Bob fits cloning machine and there is enough space for both Bobs.",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           },
           {
             "name": "Clone Bob, inspect clone Bob is OK",
             "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
             "content": [
               [
                 "command_block",
@@ -113,6 +150,9 @@
         "name": "Pre Steps",
         "eta": 600,
         "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
         "start": "None",
         "end": "None",
         "content": [
@@ -124,7 +164,10 @@
         "steps": [
           {
             "name": "Play with Bob.",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           }
         ]
       },
@@ -132,6 +175,9 @@
         "name": "Deployment",
         "eta": 600,
         "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
         "start": "None",
         "end": "None",
         "content": [
@@ -143,11 +189,17 @@
         "steps": [
           {
             "name": "Deploy BOB to war and hope he doesn't die. If he dies, there is BOB clone, although it won't be the same :'(",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           },
           {
             "name": "Check if BOB returns, if he does, he will have learned many new things. He went to war to study and learn, not to kill.",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           }
         ]
       },
@@ -155,6 +207,9 @@
         "name": "Post Steps",
         "eta": 600,
         "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
         "start": "None",
         "end": "None",
         "content": [
@@ -166,7 +221,10 @@
         "steps": [
           {
             "name": "Give a candy to BOB to celebrate, Bob clone can join too.",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           }
         ]
       },
@@ -174,6 +232,9 @@
         "name": "Post Checks",
         "eta": 600,
         "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        },
         "start": "None",
         "end": "None",
         "content": [
@@ -185,11 +246,17 @@
         "steps": [
           {
             "name": "Check BOB is not injured in his body.",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           },
           {
             "name": "Check BOB is not injured in his mind.",
-            "status": "pending"
+            "status": "pending",
+        "time_tracking": {
+          "start_end": []
+        }
           }
         ]
       }

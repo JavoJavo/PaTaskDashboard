@@ -6,9 +6,6 @@
       {
         "name": "Initial Checks",
         "status": "pending",
-        "eta": 60,
-        "start": "None",
-        "end": "None",
         "content": [
           [
             "notes",
@@ -77,10 +74,7 @@
       },
       {
         "name": "Backup",
-        "eta": 300,
         "status": "pending",
-        "start": "None",
-        "end": "None",
         "content": [
           [
             "notes",
@@ -110,10 +104,7 @@
       },
       {
         "name": "Pre Steps",
-        "eta": 600,
         "status": "pending",
-        "start": "None",
-        "end": "None",
         "content": [
           [
             "notes",
@@ -129,10 +120,7 @@
       },
       {
         "name": "Deployment",
-        "eta": 600,
         "status": "pending",
-        "start": "None",
-        "end": "None",
         "content": [
           [
             "notes",
@@ -152,10 +140,7 @@
       },
       {
         "name": "Post Steps",
-        "eta": 600,
         "status": "pending",
-        "start": "None",
-        "end": "None",
         "content": [
           [
             "notes",
@@ -171,10 +156,7 @@
       },
       {
         "name": "Post Checks",
-        "eta": 600,
         "status": "pending",
-        "start": "None",
-        "end": "None",
         "content": [
           [
             "notes",
@@ -197,7 +179,7 @@
   "APP2":
         {"app": "APP2",
         "steps": [
-            {"name": "Initial Checks", "status": "pending", "eta": 60, "start": "None", "end": "None", "content":[
+            {"name": "Initial Checks", "status": "pending", "content":[
                 ["notes", "Run initial checks"]
             ],
              "steps": [
@@ -207,18 +189,18 @@
                         ["command_block","python check_{{storage_unit}}.py {{bike_model}}\n"]
                         ]}
              ]},
-            {"name": "Backup", "eta": 300, "status": "pending", "start": "None", "end": "None",
+            {"name": "Backup", "status": "pending",
             "steps": [
                 {"name":"Leave {{bike_model}} bike at {{storage_unit}} and take a picture of it.", "status": "pending"}
             ]},
-            {"name": "Pre Steps", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            {"name": "Pre Steps", "status": "pending",
             "content": [
                 ["notes", "📷 Check for money in {{money_storage_unit}} to buy new model {{bike_model}} bike."]
             ],
             "steps":[
                 {"name":"to_define"}
             ]},
-            {"name": "Deployment", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            {"name": "Deployment", "status": "pending",
             "content": [
                 ["notes", "Go to the store and buy."]
             ],
@@ -228,14 +210,14 @@
                     ["command_block", "sh scan_for_{{threat_type}}.sh"]
                 ]}
             ]},
-            {"name": "Post Steps", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            {"name": "Post Steps", "status": "pending",
             "content": [
                 ["notes", "Apply minor steps"]
             ],
             "steps":[
                 {"name":"Say: \"{{celebration}}\""}
             ]},
-            {"name": "Post Checks", "eta": 600, "status": "pending", "start": "None", "end": "None",
+            {"name": "Post Checks", "status": "pending",
             "content": [
                 ["notes", "Check everything OK"]
             ]}
