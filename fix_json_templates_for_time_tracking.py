@@ -13,7 +13,7 @@ def modify_tasks_for_time_tracking(task_data):
             if "time_tracking" in step and step["time_tracking"]: del step["time_tracking"]
             modify_tasks_for_time_tracking(step)
         elif "steps" not in step:
-            step['status'] = 'pending'
+            step["status"] = "pending"
             step["time_tracking"] = {"start_end":[]}
 
 
@@ -21,16 +21,18 @@ if len(sys.argv) == 2:
     is_single = False
     json_file_path = str(sys.argv[1])
     json_file = None
-    with open(json_file_path, 'r') as f:
+    with open(json_file_path, "r") as f:
         json_file = json.load(f)
         if isinstance(json_file, list):
             json_file = json_file[0]
             is_single = True
+            json_file["global_time_pointer"] = "None"
             modify_tasks_for_time_tracking(json_file)
         else:
             for key, value in json_file.items():
+                json_file[key]["global_time_pointer"] = "None"
                 modify_tasks_for_time_tracking(value)
-    with open(json_file_path, 'w') as f:
+    with open(json_file_path, "w") as f:
         if is_single: json_file = [json_file]
         json.dump(json_file, f, indent=4)
 else: 

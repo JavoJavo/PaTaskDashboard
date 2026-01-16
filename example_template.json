@@ -209,7 +209,8 @@
                     }
                 ]
             }
-        ]
+        ],
+        "global_time_pointer": "None"
     },
     "APP2": {
         "app": "APP2",
@@ -330,6 +331,7 @@
                     "start_end": []
                 }
             }
-        ]
+        ],
+        "global_time_pointer": "None"
     }
 }

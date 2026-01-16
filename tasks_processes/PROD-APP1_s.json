@@ -3,7 +3,6 @@
         "env": "PROD",
         "app": "APP1_s",
         "template": "True",
-        "global_time_pointer": "None",
         "steps": [
             {
                 "name": "Initial Checks",
@@ -211,6 +210,7 @@
                     }
                 ]
             }
-        ]
+        ],
+        "global_time_pointer": "None"
     }
 ]
