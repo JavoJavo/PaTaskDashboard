@@ -20,6 +20,7 @@ Developed to keep track of different processes taking place at the same time.
             - Parallel tasks: some tasks may be done at the same time, but current system only tracks (for now) one task at a time.
             - Forgetting to check tasks or registering pauses.
         - UI for manually editing time for specific tasks (without corrupting end-time variable)
+        - Add undo button. For when accidentally checking a box that one was not working on by mistake, maybe confused processes, boxes, etc.
 - Data saved in different format than just a copy of json, maybe ID everything and just save (ID, value) tuples. Build loaders and savers for that format.
 - Error tracking. Inputing error reason, screenshot, etc.
 - Skipping tracking.
