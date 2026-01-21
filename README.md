@@ -9,7 +9,7 @@ Developed to keep track of different processes taking place at the same time.
         - Select saved file to open it and start from there
         - Select new file and:
             1. Manualy type name
-            2. Automatically name file like tasks_DDMMYYYY.json and dynamically rename based on apps and envs used. If adding env1-app1 and env2-app1, update file name like env1_env2__app1_tasks_DDMMYYYY.json. DDMMYYYY is start date so it won't change (last change of each task will appear in global_time_tracker_variable).
+            2. Automatically name file like tasks_DDMMYYYY.json ~~and dynamically rename based on apps and envs used. If adding env1-app1 and env2-app1, update file name like env1_env2__app1_tasks_DDMMYYYY.json. DDMMYYYY is start date so it won't change (last change of each task will appear in global_time_tracker_variable).~~
 - Time tracking
     - Logic:
         - Time delta between checking checkboxes will be recorded.
