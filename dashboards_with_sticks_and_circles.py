@@ -6,6 +6,7 @@ import yaml
 from datetime import datetime
 import copy
 import os, sys
+from time_tracking import now, register_time
 #import watchfiles or watchdog
 
 def get_PATH():
@@ -140,8 +141,8 @@ def root():
         if step['status'] == 'completed':
             step['status'] = 'pending'
         else:
-
             step['status'] = 'completed'
+        ALL_TASKS[0]["global_time_pointer"] = register_time(step["time_tracking"], ALL_TASKS[0]["global_time_pointer"])
         save_tasks(FILE, ALL_TASKS)
         update_tasks_status()
         draw_drawer_buttons(right_drawer)
