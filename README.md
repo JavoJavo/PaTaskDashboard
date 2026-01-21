@@ -3,6 +3,13 @@ Build with niceGUI.
 Developed to keep track of different processes taking place at the same time. 
 <img width="1364" height="719" alt="image" src="https://github.com/user-attachments/assets/0bf7c1ad-6ac7-4bf1-bf35-5254edd25c2c" />
 ## TODO
+- Opening/creating/(saving) files at app startup.
+    - Deprecate automatic hourly saving files.
+    - Menu at startup that displays these options:
+        - Select saved file to open it and start from there
+        - Select new file and:
+            1. Manualy type name
+            2. Automatically name file like tasks_DDMMYYYY.json and dynamically rename based on apps and envs used. If adding env1-app1 and env2-app1, update file name like env1_env2__app1_tasks_DDMMYYYY.json. DDMMYYYY is start date so it won't change (last change of each task will appear in global_time_tracker_variable).
 - Time tracking
     - Logic:
         - Time delta between checking checkboxes will be recorded.
