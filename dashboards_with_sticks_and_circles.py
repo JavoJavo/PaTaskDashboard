@@ -350,13 +350,15 @@ def load_tasks(FILE):
     with open(FILE,'r') as f:
         ALL_TASKS = json.load(f)
 
-def save_tasks(FILE, ALL_TASKS):
+def save_tasks(FILE_, ALL_TASKS):
     global config
-    if FILE:
-        with open(FILE, 'w') as f:
+    if FILE_:
+        with open(FILE_, 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)  # indent for readability
     else:
-        with open(get_PATH()+config['paths']['output']['task_history_dir']+f"/tasks_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}.json", 'w') as f:
+        global FILE
+        FILE = get_PATH()+config['paths']['output']['task_history_dir']+f"/tasks_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}.json"
+        with open(FILE, 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)
 
 def startup_func():
@@ -378,7 +380,7 @@ def startup_func():
         load_tasks(FILE)
         # You can now use the file_path variable in your program
     else:
-        print("No file selected.")
+        print("No file selected. Creating new one...")
 config = load_file_path_conf()
 ALL_TASKS = []
 app.on_startup(startup_func)
