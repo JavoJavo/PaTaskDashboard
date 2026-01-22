@@ -1,4 +1,4 @@
-from nicegui import native, ui
+from nicegui import native, ui, app
 import json
 from typing import List, Optional
 import uuid
@@ -7,6 +7,8 @@ from datetime import datetime
 import copy
 import os, sys
 from time_tracking import now, register_time
+import tkinter as tk
+from tkinter import filedialog
 #import watchfiles or watchdog
 
 def get_PATH():
@@ -182,6 +184,7 @@ def root():
     def main_section(task, i=None):
         current_task = ALL_TASKS.pop(i)
         ALL_TASKS.insert(0, current_task)
+        update_tasks_status()
         draw_drawer_buttons(right_drawer)
         main_section_ui.clear()
         task_key = f"{task['env']}-{task['app']}"
@@ -307,8 +310,8 @@ def root():
                     task = json.load(f)
                     ALL_TASKS.append(task[0])
                 current_tasks_names_list[task_name] = True
-                draw_drawer_buttons(right_drawer)
                 update_tasks_status()
+                draw_drawer_buttons(right_drawer)
             except:
                 add_task_from_template(task_name, loaded)
         main_section(ALL_TASKS[0], i=0) 
@@ -335,14 +338,13 @@ def root():
         env, app = task_name.split('-')
         ALL_TASKS.append(load_app(env,app,config_[env][app],copy.deepcopy(template[app])))
         current_tasks_names_list[task_name] = True
-        draw_drawer_buttons(right_drawer)
         update_tasks_status()
+        draw_drawer_buttons(right_drawer)
         
 def load_file_path_conf():
     with open(get_PATH()+'file_path_conf.yaml', 'r') as f:
         config = yaml.safe_load(f)
         return config
-config = load_file_path_conf()
 def load_tasks(FILE):
     global ALL_TASKS
     with open(FILE,'r') as f:
@@ -354,14 +356,35 @@ def save_tasks(FILE, ALL_TASKS):
         with open(FILE, 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)  # indent for readability
     else:
-        with open(get_PATH()+config['paths']['output']['task_history_dir']+f"/Processes_{datetime.now().strftime('%Y-%m-%d_%H')}.json", 'w') as f:
+        with open(get_PATH()+config['paths']['output']['task_history_dir']+f"/tasks_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}.json", 'w') as f:
             json.dump(ALL_TASKS, f, indent=2)
 
+def startup_func():
+    global FILE
+    FILE = None
+    # Create a hidden root window
+    root = tk.Tk()
+    root.withdraw() 
+
+    file_path = filedialog.askopenfilename(
+        title="Choose a file",
+        initialdir=get_PATH()+config['paths']['output']['task_history_dir'],
+        filetypes=(("Text files", "*.json"), ("All files", "*.*"))
+    )
+
+    if file_path:
+        print(f"Selected file: {file_path}")
+        FILE = file_path
+        load_tasks(FILE)
+        # You can now use the file_path variable in your program
+    else:
+        print("No file selected.")
+config = load_file_path_conf()
 ALL_TASKS = []
-FILE = None# Add file here to start from previous session saved.
+app.on_startup(startup_func)
 task_in_view = None
-if FILE:
-    load_tasks(FILE)
+#if FILE:
+    
 
 #ui.dark_mode().enable
 ui.run(native=True, reload=False, window_size=(int(400*3.25), 300*2), port=native.find_open_port())
